@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YukiYume.GitHub", "YukiYume.GitHub\YukiYume.GitHub.csproj", "{BAD74D70-9A87-427E-B394-EBA4A4B2A168}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YukiYume.GitHub.Tests", "YukiYume.GitHub.Tests\YukiYume.GitHub.Tests.csproj", "{EF8E8F1A-66C2-44A0-B36B-1891498C7528}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YukiYume", "..\YukiYume\YukiYume\YukiYume.csproj", "{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAD74D70-9A87-427E-B394-EBA4A4B2A168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAD74D70-9A87-427E-B394-EBA4A4B2A168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAD74D70-9A87-427E-B394-EBA4A4B2A168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAD74D70-9A87-427E-B394-EBA4A4B2A168}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF8E8F1A-66C2-44A0-B36B-1891498C7528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF8E8F1A-66C2-44A0-B36B-1891498C7528}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF8E8F1A-66C2-44A0-B36B-1891498C7528}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF8E8F1A-66C2-44A0-B36B-1891498C7528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

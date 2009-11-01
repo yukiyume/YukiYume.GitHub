@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BAD74D70-9A87-427E-B394-EBA4A4B2A168}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YukiYume.GitHub</RootNamespace>
+    <AssemblyName>YukiYume.GitHub</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\Lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Core">
+      <HintPath>..\Lib\Ninject.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Blob.cs" />
+    <Compile Include="Comment.cs" />
+    <Compile Include="Commit.cs" />
+    <Compile Include="CommitAuthor.cs" />
+    <Compile Include="CommitFile.cs" />
+    <Compile Include="CommitParent.cs" />
+    <Compile Include="ICommitRepository.cs" />
+    <Compile Include="IGitRepository.cs" />
+    <Compile Include="IObjectRepository.cs" />
+    <Compile Include="Json\JsonCommitRepository.cs" />
+    <Compile Include="Json\JsonGitRepository.cs" />
+    <Compile Include="Json\JsonNetworkRepository.cs" />
+    <Compile Include="Json\JsonObjectRepository.cs" />
+    <Compile Include="NetworkCommit.cs" />
+    <Compile Include="Configuration\AuthenticationElement.cs" />
+    <Compile Include="Configuration\ClientElement.cs" />
+    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Configuration\GitHubConfigurationSection.cs" />
+    <Compile Include="IIssueRepository.cs" />
+    <Compile Include="INetworkRepository.cs" />
+    <Compile Include="Issue.cs" />
+    <Compile Include="Json\JsonIssueRepository.cs" />
+    <Compile Include="Json\JsonModule.cs" />
+    <Compile Include="Format.cs" />
+    <Compile Include="BaseRepository.cs" />
+    <Compile Include="GitHubClient.cs" />
+    <Compile Include="IUserRepository.cs" />
+    <Compile Include="Kernel.cs" />
+    <Compile Include="NetworkMeta.cs" />
+    <Compile Include="NetworkMetaBlock.cs" />
+    <Compile Include="NetworkMetaHead.cs" />
+    <Compile Include="NetworkMetaUser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicKey.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="SearchRepository.cs" />
+    <Compile Include="SearchUser.cs" />
+    <Compile Include="Tree.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserPlan.cs" />
+    <Compile Include="Json\JsonUserRepository.cs" />
+    <Compile Include="Validation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\YukiYume\YukiYume\YukiYume.csproj">
+      <Project>{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}</Project>
+      <Name>YukiYume</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
