@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YukiYume.GitHub.Tests", "Yu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YukiYume", "..\YukiYume\YukiYume\YukiYume.csproj", "{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{C2B2312E-A882-47BC-9B6B-188D69997C0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YukiYume.Tests", "..\YukiYume\YukiYume.Tests\YukiYume.Tests.csproj", "{9AEBFF9F-FB9E-4033-9CBB-C1902919149E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,8 +29,16 @@ Global
 		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AEBFF9F-FB9E-4033-9CBB-C1902919149E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AEBFF9F-FB9E-4033-9CBB-C1902919149E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AEBFF9F-FB9E-4033-9CBB-C1902919149E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AEBFF9F-FB9E-4033-9CBB-C1902919149E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3} = {C2B2312E-A882-47BC-9B6B-188D69997C0E}
+		{9AEBFF9F-FB9E-4033-9CBB-C1902919149E} = {C2B2312E-A882-47BC-9B6B-188D69997C0E}
 	EndGlobalSection
 EndGlobal
