@@ -46,36 +46,36 @@ namespace YukiYume.GitHub
     public class Issue
     {
         [JsonName("number")]
-        public int Number { get; set; }
+        public virtual int Number { get; set; }
 
         [JsonName("votes")]
-        public int Votes { get; set; }
+        public virtual int Votes { get; set; }
 
         [JsonName("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public virtual DateTime CreatedAt { get; set; }
 
         [JsonName("body")]
-        public string Body { get; set; }
+        public virtual string Body { get; set; }
 
         [JsonName("updated_at")]
-        public DateTime UpdatedAt { get; set; }
+        public virtual DateTime UpdatedAt { get; set; }
 
         [JsonName("title")]
-        public string Title { get; set; }
+        public virtual string Title { get; set; }
 
         [JsonName("closed_at")]
-        public DateTime? ClosedAt { get; set; }
+        public virtual DateTime? ClosedAt { get; set; }
 
         [JsonName("user")]
-        public string User { get; set; }
+        public virtual string User { get; set; }
 
         [JsonName("labels")]
-        public IEnumerable<string> Labels { get; set; }
+        public virtual IEnumerable<string> Labels { get; set; }
 
         [JsonName("state")]
-        public string State { get; set; }
+        public virtual string State { get; set; }
 
-        public IssueStateType IssueState
+        public virtual IssueStateType IssueState
         {
             get
             {
