@@ -30,18 +30,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using YukiYume.GitHub.Configuration;
 
 #endregion
 
 namespace YukiYume.GitHub
 {
-    public interface ICommitRepository
+    /// <summary>
+    /// All GitHub services should inherit from BaseService
+    /// BaseService sets up a GitHubClient for inheriting classes to use
+    /// </summary>
+    public abstract class BaseService : IService
     {
-        IEnumerable<Commit> List(string userName, string repositoryName, string branchName);
-        IEnumerable<Commit> List(User user, Repository repository, string branchName);
-        IEnumerable<Commit> List(string userName, string repositoryName, string branchName, string path);
-        IEnumerable<Commit> List(User user, Repository repository, string branchName, string path);
-        Commit Get(string userName, string repositoryName, string sha);
-        Commit Get(User user, Repository repository, string sha);
+        /// <summary>
+        /// Gets or sets the GitHubClient
+        /// </summary>
+        public GitHubClient Client { get; set; }
+
+        protected BaseService(FormatType format)
+        {
+            if (Config.GitHub.Authentication != null && !string.IsNullOrEmpty(Config.GitHub.Authentication.UserName) && !string.IsNullOrEmpty(Config.GitHub.Authentication.ApiToken))
+                Client = new GitHubClient(format, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
+            else
+                Client = new GitHubClient(format);
+        }
+
+        protected BaseService(FormatType format, string gitHubUserName, string gitHubApiToken) 
+        {
+            Client = new GitHubClient(format, gitHubUserName, gitHubApiToken);
+        }
     }
 }

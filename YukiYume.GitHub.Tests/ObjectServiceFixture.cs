@@ -40,24 +40,33 @@ using YukiYume.GitHub.Configuration;
 
 namespace YukiYume.GitHub.Tests
 {
+    /// <summary>
+    /// Unit Tests for IObjectService
+    /// </summary>
     [TestFixture]
-    public class ObjectRepositoryFixture
+    public class ObjectServiceFixture
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(ObjectRepositoryFixture));
-        private IObjectRepository ObjectRepository { get; set; }
+        private static readonly ILog Log = LogManager.GetLogger(typeof(ObjectServiceFixture));
+        private IObjectService ObjectRepository { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            ObjectRepository = Kernel.Get<IObjectRepository>();
+            ObjectRepository = GitHubServiceLocator.Get<IObjectService>();
         }
 
         #region TreeList
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void TreeListNullUser()
+        public void TreeListNullUserString()
         {
             ObjectRepository.TreeList(null, "repos", "sha");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void TreeListNullUser()
+        {
+            ObjectRepository.TreeList(null, new Repository(), "sha");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -67,9 +76,15 @@ namespace YukiYume.GitHub.Tests
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void TreeListNullRepository()
+        public void TreeListNullRepositoryString()
         {
             ObjectRepository.TreeList("user", null, "sha");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void TreeListNullRepository()
+        {
+            ObjectRepository.TreeList(new User(), null, "sha");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -93,7 +108,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void TreeList()
         {
-            var treeList = ObjectRepository.TreeList(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "c0890c36faa353f51b318e009fa810b5bd8fd9f2");
+            var treeList = ObjectRepository.TreeList(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "cfb534dad9cdf552c90c41a88d276c03e6f98f24");
             Assert.That(treeList != null);
             Assert.That(treeList.Count() > 0);
 
@@ -121,9 +136,15 @@ namespace YukiYume.GitHub.Tests
         #region GetBlobMeta
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetBlobMetaNullUser()
+        public void GetBlobMetaNullUserString()
         {
             ObjectRepository.GetBlobMeta(null, "repos", "sha", "path");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetBlobMetaNullUser()
+        {
+            ObjectRepository.GetBlobMeta(null, new Repository(), "sha", "path");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -133,9 +154,15 @@ namespace YukiYume.GitHub.Tests
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetBlobMetaNullRepository()
+        public void GetBlobMetaNullRepositoryString()
         {
             ObjectRepository.GetBlobMeta("user", null, "sha", "path");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetBlobMetaNullRepository()
+        {
+            ObjectRepository.GetBlobMeta(new User(), null, "sha", "path");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -171,7 +198,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void GetBlobMeta()
         {
-            var blobMeta = ObjectRepository.GetBlobMeta(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "c0890c36faa353f51b318e009fa810b5bd8fd9f2", "README");
+            var blobMeta = ObjectRepository.GetBlobMeta(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "cfb534dad9cdf552c90c41a88d276c03e6f98f24", "README");
             Assert.That(blobMeta != null);
             Assert.That(!string.IsNullOrEmpty(blobMeta.Name));
             Assert.That(!string.IsNullOrEmpty(blobMeta.Mode));
@@ -186,7 +213,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void GetBlobMetaPng()
         {
-            var blobMeta = ObjectRepository.GetBlobMeta(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "be80083dd9de1a1e6363ec68499775d4d7227a06", "testblob.png");
+            var blobMeta = ObjectRepository.GetBlobMeta(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "cfb534dad9cdf552c90c41a88d276c03e6f98f24", "testblob.png");
             Assert.That(blobMeta != null);
             Assert.That(!string.IsNullOrEmpty(blobMeta.Name));
             Assert.That(!string.IsNullOrEmpty(blobMeta.Mode));
@@ -201,7 +228,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void GetBlobMetaNonExisting()
         {
-            var blobMeta = ObjectRepository.GetBlobMeta(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "c0890c36faa353f51b318e009fa810b5bd8fd9f2", "READMEXXXXXXXXX");
+            var blobMeta = ObjectRepository.GetBlobMeta(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "cfb534dad9cdf552c90c41a88d276c03e6f98f24", "READMEXXXXXXXXX");
             Assert.That(blobMeta == null);
         }
 
@@ -210,9 +237,15 @@ namespace YukiYume.GitHub.Tests
         #region GetBlob
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetBlobNullUser()
+        public void GetBlobNullUserString()
         {
             ObjectRepository.GetBlob(null, "repos", "sha");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetBlobNullUser()
+        {
+            ObjectRepository.GetBlob(null, new Repository(), "sha");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -222,9 +255,15 @@ namespace YukiYume.GitHub.Tests
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetBlobNullRepository()
+        public void GetBlobNullRepositoryString()
         {
             ObjectRepository.GetBlob("user", null, "sha");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetBlobNullRepository()
+        {
+            ObjectRepository.GetBlob(new User(), null, "sha");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]

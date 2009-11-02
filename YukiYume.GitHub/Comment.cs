@@ -36,11 +36,20 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsulates information about a comment on a GitHub issue
+    /// </summary>
     public class Comment
     {
+        /// <summary>
+        /// Gets or sets the comments text
+        /// </summary>
         [JsonName("comment")]
         public virtual string CommentText { get; set; }
 
+        /// <summary>
+        /// Gets or sets the status of the comment, "saved" if successfully added
+        /// </summary>
         [JsonName("status")]
         public virtual string Status { get; set; }
 

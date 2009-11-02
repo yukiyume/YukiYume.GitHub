@@ -36,38 +36,75 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsulates information about a GitHub Git repository
+    /// See http://develop.github.com/p/repo.html for more information
+    /// </summary>
     public class Repository
     {
+        /// <summary>
+        /// description
+        /// </summary>
         [JsonName("description")]
         public virtual string Description { get; set; }
 
+        /// <summary>
+        /// number of open issues
+        /// </summary>
         [JsonName("open_issues")]
         public virtual int OpenIssues { get; set; }
 
+        /// <summary>
+        /// number of watchers
+        /// </summary>
         [JsonName("watchers")]
         public virtual int Watchers { get; set; }
 
+        /// <summary>
+        /// GitHub url for the repository
+        /// </summary>
         [JsonName("url")]
         public virtual string Url { get; set; }
 
+        /// <summary>
+        /// homepage
+        /// </summary>
         [JsonName("homepage")]
         public virtual string HomePage { get; set; }
 
+        /// <summary>
+        /// fork
+        /// </summary>
         [JsonName("fork")]
         public virtual bool IsFork { get; set; }
 
+        /// <summary>
+        /// private
+        /// </summary>
         [JsonName("private")]
         public virtual bool IsPrivate { get; set; }
 
+        /// <summary>
+        /// repository name
+        /// </summary>
         [JsonName("name")]
         public virtual string Name { get; set; }
 
+        /// <summary>
+        /// author login
+        /// </summary>
         [JsonName("owner")]
         public virtual string Owner { get; set; }
 
+        /// <summary>
+        /// number of pledgies
+        /// </summary>
         [JsonName("pledgie")]
         public virtual int Pledgie { get; set; }
 
+        /// <summary>
+        /// number of forks
+        /// </summary>
         [JsonName("forks")]
         public virtual int Forks { get; set; }
 

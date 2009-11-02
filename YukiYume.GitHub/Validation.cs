@@ -62,5 +62,11 @@ namespace YukiYume.GitHub
             if (predicate(argument))
                 throw new ArgumentException(message, parameterName);
         }
+
+        internal static void ValidateUserRepository(User user, Repository repository)
+        {
+            ValidateArgument(user, "user");
+            ValidateArgument(repository, "repository");
+        }
     }
 }

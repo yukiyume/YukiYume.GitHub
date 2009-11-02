@@ -38,25 +38,34 @@ using YukiYume.GitHub.Configuration;
 
 namespace YukiYume.GitHub.Tests
 {
+    /// <summary>
+    /// Unit Tests for INetworkService
+    /// </summary>
     [TestFixture]
-    public class NetworkRepositoryFixture
+    public class NetworkServiceFixture
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(NetworkRepositoryFixture));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(NetworkServiceFixture));
 
-        private INetworkRepository NetworkRepository { get; set; }
+        private INetworkService NetworkRepository { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            NetworkRepository = Kernel.Get<INetworkRepository>();
+            NetworkRepository = GitHubServiceLocator.Get<INetworkService>();
         }
 
         #region GetNetworkMeta
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetNetworkMetaNullUser()
+        public void GetNetworkMetaNullUserString()
         {
             NetworkRepository.GetNetworkMeta(null, "repos");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetNetworkMetaNullUser()
+        {
+            NetworkRepository.GetNetworkMeta(null, new Repository());
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -66,9 +75,15 @@ namespace YukiYume.GitHub.Tests
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetNetworkMetaNullRepository()
+        public void GetNetworkMetaNullRepositoryString()
         {
             NetworkRepository.GetNetworkMeta("user", null);
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetNetworkMetaNullRepository()
+        {
+            NetworkRepository.GetNetworkMeta(new User(), null);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -82,7 +97,16 @@ namespace YukiYume.GitHub.Tests
         {
             var networkMeta = NetworkRepository.GetNetworkMeta(Config.GitHub.Authentication.UserName, "YukiYume.GitHub");
             Assert.That(networkMeta != null);
-            
+
+            Log.Info(networkMeta);
+        }
+
+        [Test]
+        public void GetNetworkMeta2()
+        {
+            var networkMeta = NetworkRepository.GetNetworkMeta(new User { Login = Config.GitHub.Authentication.UserName }, new Repository { Name = "YukiYume.GitHub" });
+            Assert.That(networkMeta != null);
+
             Log.Info(networkMeta);
         }
 
@@ -91,9 +115,15 @@ namespace YukiYume.GitHub.Tests
         #region GetNetworkData
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetNetworkDataNullUser()
+        public void GetNetworkDataNullUserString()
         {
             NetworkRepository.GetNetworkData(null, "repos", "nethash");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetNetworkDataNullUser()
+        {
+            NetworkRepository.GetNetworkData(null, new Repository(), "nethash");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -103,9 +133,15 @@ namespace YukiYume.GitHub.Tests
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetNetworkDataNullRepository()
+        public void GetNetworkDataNullRepositoryString()
         {
             NetworkRepository.GetNetworkData("user", null, "nethash");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetNetworkDataNullRepository()
+        {
+            NetworkRepository.GetNetworkData(new User(), null, "nethash");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -129,7 +165,21 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void GetNetworkData()
         {
-            var networkData = NetworkRepository.GetNetworkData(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "ce0f9b4332760c9f85d7b181f1a459428abe4052");
+            var networkData = NetworkRepository.GetNetworkData(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "e1851e89793445d51094e7ee560bdff53d98aeb3");
+            Assert.That(networkData != null);
+            Assert.That(networkData.Count() > 0);
+
+            networkData.Each(commit =>
+            {
+                Assert.That(commit.Time >= 0);
+                Log.Info(commit);
+            });
+        }
+
+        [Test]
+        public void GetNetworkData2()
+        {
+            var networkData = NetworkRepository.GetNetworkData(new User { Login = Config.GitHub.Authentication.UserName }, new Repository { Name = "YukiYume.GitHub" }, "e1851e89793445d51094e7ee560bdff53d98aeb3");
             Assert.That(networkData != null);
             Assert.That(networkData.Count() > 0);
 
@@ -145,9 +195,15 @@ namespace YukiYume.GitHub.Tests
         #region GetNetworkDataStartEnd
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetNetworkDataStartEndNullUser()
+        public void GetNetworkDataStartEndNullUserString()
         {
             NetworkRepository.GetNetworkData(null, "repos", "nethash", 0, 100);
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetNetworkDataStartEndNullUser()
+        {
+            NetworkRepository.GetNetworkData(null, new Repository(), "nethash", 0, 100);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -157,9 +213,15 @@ namespace YukiYume.GitHub.Tests
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetNetworkDataStartEndNullRepository()
+        public void GetNetworkDataStartEndNullRepositoryString()
         {
             NetworkRepository.GetNetworkData("user", null, "nethash", 0, 100);
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetNetworkDataStartEndNullRepository()
+        {
+            NetworkRepository.GetNetworkData(new User(), null, "nethash", 0, 100);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -195,7 +257,21 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void GetNetworkDataStartEnd()
         {
-            var networkData = NetworkRepository.GetNetworkData(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "ce0f9b4332760c9f85d7b181f1a459428abe4052", 1, 1);
+            var networkData = NetworkRepository.GetNetworkData(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "e1851e89793445d51094e7ee560bdff53d98aeb3", 1, 1);
+            Assert.That(networkData != null);
+            Assert.That(networkData.Count() > 0);
+
+            networkData.Each(commit =>
+            {
+                Assert.That(commit.Time >= 0);
+                Log.Info(commit);
+            });
+        }
+
+        [Test]
+        public void GetNetworkDataStartEnd2()
+        {
+            var networkData = NetworkRepository.GetNetworkData(new User { Login = Config.GitHub.Authentication.UserName }, new Repository { Name = "YukiYume.GitHub" }, "e1851e89793445d51094e7ee560bdff53d98aeb3", 1, 1);
             Assert.That(networkData != null);
             Assert.That(networkData.Count() > 0);
 

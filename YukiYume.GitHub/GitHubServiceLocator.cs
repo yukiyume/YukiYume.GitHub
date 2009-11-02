@@ -30,47 +30,51 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using YukiYume.Json;
+using Ninject;
+using YukiYume.GitHub.Json;
+using Ninject.Modules;
 
 #endregion
 
 namespace YukiYume.GitHub
 {
     /// <summary>
-    /// Encapsulates network meta user information
-    /// See http://develop.github.com/p/network.html for more information
+    /// GitHubServiceLocator is an alternative to using the GitHub class
+    /// Use GitHubService to get instances of the various GitHub services
+    /// Use of the Init method is optional
+    /// Usage:
+    /// var userService = GitHubServiceLocator.Get&lgt;IUserService&gt;();
+    /// var user = userService.Get("username");
+    /// If you want to use a different NinjectModule than the default, 
+    /// before getting any services, call the Init method as in the following:
+    /// GitHubServiceLocator.Init(new JsonModule("username", "apitoken"));
     /// </summary>
-    public class NetworkMetaUser
+    public static class GitHubServiceLocator
     {
-        /// <summary>
-        /// user name
-        /// </summary>
-        [JsonName("name")]
-        public virtual string Name { get; set; }
+        private static IKernel Kernel { get; set; }
 
         /// <summary>
-        /// repository name
+        /// Gets an instance of a GitHub service
         /// </summary>
-        [JsonName("repo")]
-        public virtual string Repository { get; set; }
-
-        /// <summary>
-        /// heads
-        /// </summary>
-        [JsonName("heads")]
-        public virtual IEnumerable<NetworkMetaHead> Heads { get; set; }
-
-        public override string ToString()
+        /// <typeparam name="T">the type of GitHub service to get, such as IUserService</typeparam>
+        /// <returns>a new instance of the specified GitHub service</returns>
+        public static T Get<T>() where T : IService
         {
-            var infoBuilder = new StringBuilder();
+            return Kernel.Get<T>();
+        }
 
-            infoBuilder.AppendFormat("\tName: {0}\n", Name ?? string.Empty);
-            infoBuilder.AppendFormat("\tRepository: {0}\n", Repository ?? string.Empty);
-            infoBuilder.Append("\tHeads: \n");
-            if (Heads != null)
-                Heads.Each(head => infoBuilder.AppendFormat("{0}\n", head));
+        /// <summary>
+        /// Initializes the GitHubServiceLocator with the specified NinjectModule
+        /// </summary>
+        /// <param name="module">the module to initialize the Ninject kernel with</param>
+        public static void Init(INinjectModule module)
+        {
+            Kernel = new StandardKernel(module);
+        }
 
-            return infoBuilder.ToString();
+        static GitHubServiceLocator()
+        {
+            Kernel = new StandardKernel(new JsonModule());
         }
     }
 }

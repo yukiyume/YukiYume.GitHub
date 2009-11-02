@@ -36,8 +36,15 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsulates information about a commit parent
+    /// See http://develop.github.com/p/commits.html for more information
+    /// </summary>
     public class CommitParent
     {
+        /// <summary>
+        /// SHA for the parent
+        /// </summary>
         [JsonName("id")]
         public virtual string Id { get; set; }
 

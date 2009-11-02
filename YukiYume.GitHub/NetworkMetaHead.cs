@@ -36,11 +36,21 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsulates user head information
+    /// See http://develop.github.com/p/network.html for more information
+    /// </summary>
     public class NetworkMetaHead
     {
+        /// <summary>
+        /// head name
+        /// </summary>
         [JsonName("name")]
         public virtual string Name { get; set; }
 
+        /// <summary>
+        /// id
+        /// </summary>
         [JsonName("id")]
         public virtual string Id { get; set; }
 

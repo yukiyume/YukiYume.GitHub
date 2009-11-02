@@ -36,20 +36,39 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsulates network meta information for a GitHub repository
+    /// See http://develop.github.com/p/network.html for more information
+    /// </summary>
     public class NetworkMeta
     {
+        /// <summary>
+        /// focus
+        /// </summary>
         [JsonName("focus")]
         public virtual int Focus { get; set; }
 
+        /// <summary>
+        /// nethash for the network
+        /// </summary>
         [JsonName("nethash")]
         public virtual string NetHash { get; set; }
 
+        /// <summary>
+        /// dates
+        /// </summary>
         [JsonName("dates")]
         public virtual IEnumerable<DateTime> Dates { get; set; }
 
+        /// <summary>
+        /// users
+        /// </summary>
         [JsonName("users")]
         public virtual IEnumerable<NetworkMetaUser> Users { get; set; }
 
+        /// <summary>
+        /// blocks
+        /// </summary>
         [JsonName("blocks")]
         public virtual IEnumerable<NetworkMetaBlock> Blocks { get; set; }
 

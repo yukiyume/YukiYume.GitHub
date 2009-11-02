@@ -35,16 +35,19 @@ using YukiYume.Json;
 
 #endregion
 
-namespace YukiYume.GitHub
+namespace YukiYume.GitHub.Json
 {
-    public class JsonNetworkRepository : BaseRepository, INetworkRepository
+    /// <summary>
+    /// JSON implementation of INetworkService
+    /// </summary>
+    public class JsonNetworkService : BaseService, INetworkService
     {
-        public JsonNetworkRepository()
+        public JsonNetworkService()
             : base(FormatType.Json)
         {
         }
 
-        public JsonNetworkRepository(string gitHubUserName, string gitHubApiToken)
+        public JsonNetworkService(string gitHubUserName, string gitHubApiToken)
             : base(FormatType.Json, gitHubUserName, gitHubApiToken)
         {
         }
@@ -52,7 +55,6 @@ namespace YukiYume.GitHub
         public virtual NetworkMeta GetNetworkMeta(string userName, string repository)
         {
             Validation.ValidateUserNameRepositoryNameArguments(userName, repository);
-
             var data = Client.DownloadNetwork(string.Format("{0}/{1}/network_meta", userName, repository));
 
             return !string.IsNullOrEmpty(data) ?
@@ -60,15 +62,26 @@ namespace YukiYume.GitHub
                            null;
         }
 
+        public virtual NetworkMeta GetNetworkMeta(User user, Repository repository)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            return GetNetworkMeta(user.Login, repository.Name);
+        }
+
         public virtual IEnumerable<NetworkCommit> GetNetworkData(string userName, string repository, string netHash)
         {
             ValidateNetworkData(userName, repository, netHash);
-
             var data = Client.DownloadNetwork(string.Format("{0}/{1}/network_data_chunk?nethash={2}", userName, repository, netHash));
 
             return !string.IsNullOrEmpty(data) ?
                            JsonDeserializer.Deserialize<CommitsContainer>(data).Commits :
                            new List<NetworkCommit>();
+        }
+
+        public virtual IEnumerable<NetworkCommit> GetNetworkData(User user, Repository repository, string netHash)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            return GetNetworkData(user.Login, repository.Name, netHash);
         }
 
         public virtual IEnumerable<NetworkCommit> GetNetworkData(string userName, string repository, string netHash, int start, int end)
@@ -82,6 +95,12 @@ namespace YukiYume.GitHub
             return !string.IsNullOrEmpty(data) ?
                            JsonDeserializer.Deserialize<CommitsContainer>(data).Commits :
                            new List<NetworkCommit>();
+        }
+
+        public virtual IEnumerable<NetworkCommit> GetNetworkData(User user, Repository repository, string netHash, int start, int end)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            return GetNetworkData(user.Login, repository.Name, netHash, start, end);
         }
 
         #region Validation

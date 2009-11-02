@@ -36,10 +36,16 @@ using System.Text;
 
 namespace YukiYume.GitHub.Configuration
 {
+    /// <summary>
+    /// Provides easy access to the GitHubConfigurationSection class
+    /// </summary>
     public static class Config
     {
         private static GitHubConfigurationSection _gitHub;
 
+        /// <summary>
+        /// Gets GitHubConfigurationSection configuration
+        /// </summary>
         public static GitHubConfigurationSection GitHub
         {
             get

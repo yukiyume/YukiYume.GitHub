@@ -36,8 +36,14 @@ using System.Text;
 
 namespace YukiYume.GitHub.Configuration
 {
+    /// <summary>
+    /// ConfigurationSection for YukiYume.GitHub configuration
+    /// </summary>
     public class GitHubConfigurationSection : ConfigurationSection
     {
+        /// <summary>
+        /// GitHub API Authentication configuration
+        /// </summary>
         [ConfigurationProperty("authentication", IsRequired = false)]
         public AuthenticationElement Authentication 
         {
@@ -45,6 +51,9 @@ namespace YukiYume.GitHub.Configuration
             set { this["authentication"] = value; }
         }
 
+        /// <summary>
+        /// Configuration for GitHubClient
+        /// </summary>
         [ConfigurationProperty("client", IsRequired = true)]
         public ClientElement Client
         {

@@ -13,22 +13,31 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YukiYume.Tests", "..\YukiYu
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		AutomatedRelease|Any CPU = AutomatedRelease|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAD74D70-9A87-427E-B394-EBA4A4B2A168}.AutomatedRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{BAD74D70-9A87-427E-B394-EBA4A4B2A168}.AutomatedRelease|Any CPU.Build.0 = Release|Any CPU
 		{BAD74D70-9A87-427E-B394-EBA4A4B2A168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BAD74D70-9A87-427E-B394-EBA4A4B2A168}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAD74D70-9A87-427E-B394-EBA4A4B2A168}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAD74D70-9A87-427E-B394-EBA4A4B2A168}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF8E8F1A-66C2-44A0-B36B-1891498C7528}.AutomatedRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{EF8E8F1A-66C2-44A0-B36B-1891498C7528}.AutomatedRelease|Any CPU.Build.0 = Release|Any CPU
 		{EF8E8F1A-66C2-44A0-B36B-1891498C7528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF8E8F1A-66C2-44A0-B36B-1891498C7528}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF8E8F1A-66C2-44A0-B36B-1891498C7528}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF8E8F1A-66C2-44A0-B36B-1891498C7528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.AutomatedRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.AutomatedRelease|Any CPU.Build.0 = Release|Any CPU
 		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6FFC8CB-BB84-42FB-805A-4E95A4E3D9F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AEBFF9F-FB9E-4033-9CBB-C1902919149E}.AutomatedRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{9AEBFF9F-FB9E-4033-9CBB-C1902919149E}.AutomatedRelease|Any CPU.Build.0 = Release|Any CPU
 		{9AEBFF9F-FB9E-4033-9CBB-C1902919149E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9AEBFF9F-FB9E-4033-9CBB-C1902919149E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AEBFF9F-FB9E-4033-9CBB-C1902919149E}.Release|Any CPU.ActiveCfg = Release|Any CPU

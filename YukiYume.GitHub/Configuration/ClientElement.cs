@@ -36,8 +36,15 @@ using System.Text;
 
 namespace YukiYume.GitHub.Configuration
 {
+    /// <summary>
+    /// ConfigurationElement for the client configuration, used by GitHubClient
+    /// </summary>
     public class ClientElement : ConfigurationElement
     {
+        /// <summary>
+        /// Used by GitHubClient
+        /// Format for constructing GitHub API urls
+        /// </summary>
         [ConfigurationProperty("apiUrlFormat", IsRequired = true)]
         public string ApiUrlFormat
         {
@@ -45,6 +52,10 @@ namespace YukiYume.GitHub.Configuration
             set { this["apiUrlFormat"] = value; }
         }
 
+        /// <summary>
+        /// Used by GitHubClient
+        /// Format for constructing GitHub Network API urls
+        /// </summary>
         [ConfigurationProperty("networkUrlFormat", IsRequired = true)]
         public string NetworkUrlFormat
         {
@@ -52,6 +63,10 @@ namespace YukiYume.GitHub.Configuration
             set { this["networkUrlFormat"] = value; }
         }
 
+        /// <summary>
+        /// Used by GitHubClient
+        /// the size of the pool for WebClients
+        /// </summary>
         [ConfigurationProperty("poolSize", IsRequired = true)]
         public int PoolSize
         {

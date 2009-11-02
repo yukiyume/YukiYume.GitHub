@@ -36,23 +36,45 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsulates meta information about a blob object in a GitHub repository
+    /// See http://develop.github.com/p/object.html for more information
+    /// </summary>
     public class Blob
     {
+        /// <summary>
+        /// filename of the blob
+        /// </summary>
         [JsonName("name")]
         public virtual string Name { get; set; }
 
+        /// <summary>
+        /// size in bytes of the blob
+        /// </summary>
         [JsonName("size")]
         public virtual int Size { get; set; }
 
+        /// <summary>
+        /// SHA hash of the blob
+        /// </summary>
         [JsonName("sha")]
         public virtual string Sha { get; set; }
 
+        /// <summary>
+        /// blob file mode
+        /// </summary>
         [JsonName("mode")]
         public virtual string Mode { get; set; }
 
+        /// <summary>
+        /// text contents of the blob
+        /// </summary>
         [JsonName("data")]
         public virtual string Data { get; set; }
 
+        /// <summary>
+        /// mime type of the blob
+        /// </summary>
         [JsonName("mime_type")]
         public virtual string MimeType { get; set; }
 

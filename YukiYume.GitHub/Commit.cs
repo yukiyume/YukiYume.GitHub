@@ -36,41 +36,81 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsulates GitHub commit information
+    /// See http://develop.github.com/p/commits.html for more information
+    /// </summary>
     public class Commit
     {
+        /// <summary>
+        /// list of files added in the commit
+        /// </summary>
         [JsonName("added")]
         public virtual IEnumerable<CommitFile> Added { get; set; }
 
+        /// <summary>
+        /// list of files modified in the commit
+        /// </summary>
         [JsonName("modified")]
         public virtual IEnumerable<CommitFile> Modified { get; set; }
 
+        /// <summary>
+        /// list of files removed in the commit
+        /// </summary>
         [JsonName("removed")]
         public virtual IEnumerable<CommitFile> Removed { get; set; }
 
+        /// <summary>
+        /// parents of the commit
+        /// </summary>
         [JsonName("parents")]
         public virtual IEnumerable<CommitParent> Parents { get; set; }
 
+        /// <summary>
+        /// commit author
+        /// </summary>
         [JsonName("author")]
         public virtual CommitAuthor Author { get; set; }
 
+        /// <summary>
+        /// GitHub url for the commit
+        /// </summary>
         [JsonName("url")]
         public virtual string Url { get; set; }
 
+        /// <summary>
+        /// SHA for the commit
+        /// </summary>
         [JsonName("id")]
         public virtual string Id { get; set; }
 
+        /// <summary>
+        /// date of the commit
+        /// </summary>
         [JsonName("committed_date")]
         public virtual DateTime CommittedDate { get; set; }
 
+        /// <summary>
+        /// authored date
+        /// </summary>
         [JsonName("authored_date")]
         public virtual DateTime AuthoredDate { get; set; }
 
+        /// <summary>
+        /// commit message
+        /// </summary>
         [JsonName("message")]
         public virtual string Message { get; set; }
 
+        /// <summary>
+        /// tree SHA for the commit
+        /// </summary>
         [JsonName("tree")]
         public virtual string Tree { get; set; }
 
+        /// <summary>
+        /// committer
+        /// </summary>
         [JsonName("committer")]
         public virtual CommitAuthor Committer { get; set; }
 

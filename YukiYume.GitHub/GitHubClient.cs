@@ -41,12 +41,12 @@ using YukiYume.GitHub.Configuration;
 
 namespace YukiYume.GitHub
 {
-    public class GitHubClient
+    public sealed class GitHubClient
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(GitHubClient));
 
-        private FormatType FormatType { get; set; }
-        private NameValueCollection LoginInfo { get; set; }
+        public FormatType FormatType { get; private set; }
+        public NameValueCollection LoginInfo { get; private set; }
 
         private static readonly Semaphore WebClientPool = new Semaphore(Config.GitHub.Client.PoolSize, Config.GitHub.Client.PoolSize);
         private static readonly Queue<WebClient> WebClientQueue = new Queue<WebClient>(Config.GitHub.Client.PoolSize);
@@ -137,8 +137,8 @@ namespace YukiYume.GitHub
             }
             catch (WebException webException)
             {
-                if (Log.IsErrorEnabled)
-                    Log.Error(webException.Message, webException);
+                if (Log.IsDebugEnabled)
+                    Log.Debug(webException.Message, webException);
             }
 
             ReleaseClient(client);

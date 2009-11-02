@@ -36,14 +36,27 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsulates network meta block information
+    /// See http://develop.github.com/p/network.html for more info
+    /// </summary>
     public class NetworkMetaBlock
     {
+        /// <summary>
+        /// block name
+        /// </summary>
         [JsonName("name")]
         public virtual string Name { get; set; }
 
+        /// <summary>
+        /// start
+        /// </summary>
         [JsonName("start")]
         public virtual int Start { get; set; }
 
+        /// <summary>
+        /// count
+        /// </summary>
         [JsonName("count")]
         public virtual int Count { get; set; }
 

@@ -38,16 +38,19 @@ using YukiYume.GitHub.Configuration;
 
 namespace YukiYume.GitHub.Tests
 {
+    /// <summary>
+    /// Unit Tests for IIssueRepository
+    /// </summary>
     [TestFixture]
-    public class IssueRepositoryFixture
+    public class IssueServiceFixture
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(IssueRepositoryFixture));
-        private IIssueRepository IssueRepository { get; set; }
+        private static readonly ILog Log = LogManager.GetLogger(typeof(IssueServiceFixture));
+        private IIssueService IssueRepository { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            IssueRepository = Kernel.Get<IIssueRepository>();
+            IssueRepository = GitHubServiceLocator.Get<IIssueService>();
         }
 
         #region Search

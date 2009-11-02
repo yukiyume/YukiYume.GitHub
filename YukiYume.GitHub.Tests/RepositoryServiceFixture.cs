@@ -39,16 +39,19 @@ using YukiYume.Logging;
 
 namespace YukiYume.GitHub.Tests
 {
+    /// <summary>
+    /// Unit Tests for IRepositoryService
+    /// </summary>
     [TestFixture]
-    public class GitRepositoryFixture
+    public class RepositoryServiceFixture
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(GitRepositoryFixture));
-        private IGitRepository GitRepository { get; set; }
+        private static readonly ILog Log = LogManager.GetLogger(typeof(RepositoryServiceFixture));
+        private IRepositoryService GitRepository { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            GitRepository = Kernel.Get<IGitRepository>();
+            GitRepository = GitHubServiceLocator.Get<IRepositoryService>();
         }
 
         #region Search

@@ -39,16 +39,19 @@ using System.Collections.Specialized;
 
 namespace YukiYume.GitHub.Json
 {
-    public class JsonGitRepository : BaseRepository, IGitRepository
+    /// <summary>
+    /// JSON implementation of IRepositoryService
+    /// </summary>
+    public class JsonRepositoryService : BaseService, IRepositoryService
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(JsonGitRepository));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(JsonRepositoryService));
 
-        public JsonGitRepository()
+        public JsonRepositoryService()
             : base(FormatType.Json)
         {
         }
 
-        public JsonGitRepository(string gitHubUserName, string gitHubApiToken)
+        public JsonRepositoryService(string gitHubUserName, string gitHubApiToken)
             : base(FormatType.Json, gitHubUserName, gitHubApiToken)
         {
         }

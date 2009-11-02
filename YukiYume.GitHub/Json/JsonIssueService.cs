@@ -39,16 +39,19 @@ using System.Collections.Specialized;
 
 namespace YukiYume.GitHub.Json
 {
-    public class JsonIssueRepository : BaseRepository, IIssueRepository
+    /// <summary>
+    /// JSON implementation of IIssueService
+    /// </summary>
+    public class JsonIssueService : BaseService, IIssueService
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(JsonUserRepository));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(JsonUserService));
 
-        public JsonIssueRepository()
+        public JsonIssueService()
             : base(FormatType.Json)
         {
         }
 
-        public JsonIssueRepository(string gitHubUserName, string gitHubApiToken)
+        public JsonIssueService(string gitHubUserName, string gitHubApiToken)
             : base(FormatType.Json, gitHubUserName, gitHubApiToken)
         {
         }
@@ -68,6 +71,12 @@ namespace YukiYume.GitHub.Json
                        : new List<Issue>();
         }
 
+        public virtual IEnumerable<Issue> Search(User user, Repository repository, IssueStateType issueState, string searchTerm)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            return Search(user.Login, repository.Name, issueState, searchTerm);
+        }
+
         public virtual IEnumerable<Issue> List(string userName, string repositoryName, IssueStateType issueState)
         {
             ValidateListArguments(userName, repositoryName, issueState);
@@ -83,6 +92,12 @@ namespace YukiYume.GitHub.Json
                        : new List<Issue>();
         }
 
+        public virtual IEnumerable<Issue> List(User user, Repository repository, IssueStateType issueState)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            return List(user.Login, repository.Name, issueState);
+        }
+
         public virtual Issue Get(string userName, string repositoryName, int number)
         {
             ValidateGetArguments(userName, repositoryName, number);
@@ -96,6 +111,12 @@ namespace YukiYume.GitHub.Json
             return !string.IsNullOrEmpty(data)
                        ? JsonDeserializer.Deserialize<IssueContainer>(data).Issue
                        : null;
+        }
+
+        public virtual Issue Get(User user, Repository repository, int number)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            return Get(user.Login, repository.Name, number);
         }
 
         public virtual Issue Open(string userName, string repositoryName, string title, string body)
@@ -114,9 +135,11 @@ namespace YukiYume.GitHub.Json
                        : null;
         }
 
-        public virtual Issue ReOpen(string userName, string repositoryName, int number)
+        public virtual Issue Open(User user, Repository repository, Issue issue)
         {
-            return CloseOrReOpen(userName, repositoryName, number, "reopen");
+            Validation.ValidateUserRepository(user, repository);
+            Validation.ValidateArgument(issue, "issue");
+            return Open(user.Login, repository.Name, issue.Title, issue.Body);
         }
 
         public virtual Issue Close(string userName, string repositoryName, int number)
@@ -124,7 +147,26 @@ namespace YukiYume.GitHub.Json
             return CloseOrReOpen(userName, repositoryName, number, "close");
         }
 
-        protected Issue CloseOrReOpen(string userName, string repositoryName, int number, string method)
+        public virtual Issue Close(User user, Repository repository, Issue issue)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            Validation.ValidateArgument(issue, "issue");
+            return Close(user.Login, repository.Name, issue.Number);
+        }
+
+        public virtual Issue ReOpen(string userName, string repositoryName, int number)
+        {
+            return CloseOrReOpen(userName, repositoryName, number, "reopen");
+        }
+
+        public virtual Issue ReOpen(User user, Repository repository, Issue issue)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            Validation.ValidateArgument(issue, "issue");
+            return ReOpen(user.Login, repository.Name, issue.Number);
+        }
+
+        protected virtual Issue CloseOrReOpen(string userName, string repositoryName, int number, string method)
         {
             ValidateGetArguments(userName, repositoryName, number);
 
@@ -155,6 +197,13 @@ namespace YukiYume.GitHub.Json
                        : null;
         }
 
+        public virtual Issue Edit(User user, Repository repository, Issue issue)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            Validation.ValidateArgument(issue, "issue");
+            return Edit(user.Login, repository.Name, issue.Number, issue.Title, issue.Body);
+        }
+
         public virtual IEnumerable<string> GetLabels(string userName, string repositoryName)
         {
             Validation.ValidateUserNameRepositoryNameArguments(userName, repositoryName);
@@ -170,12 +219,25 @@ namespace YukiYume.GitHub.Json
                        : new List<string>();
         }
 
+        public virtual IEnumerable<string> GetLabels(User user, Repository repository)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            return GetLabels(user.Login, repository.Name);
+        }
+
         public virtual IEnumerable<string> AddLabel(string userName, string repositoryName, string label, int number)
         {
             return AddRemoveLabel(userName, repositoryName, label, number, "add");
         }
 
-        private IEnumerable<string> AddRemoveLabel(string userName, string repositoryName, string label, int number, string method)
+        public virtual IEnumerable<string> AddLabel(User user, Repository repository, string label, Issue issue)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            Validation.ValidateArgument(issue, "issue");
+            return AddLabel(user.Login, repository.Name, label, issue.Number);
+        }
+
+        protected virtual IEnumerable<string> AddRemoveLabel(string userName, string repositoryName, string label, int number, string method)
         {
             ValidateLabel(userName, repositoryName, label, number);
 
@@ -193,6 +255,13 @@ namespace YukiYume.GitHub.Json
         public virtual IEnumerable<string> RemoveLabel(string userName, string repositoryName, string label, int number)
         {
             return AddRemoveLabel(userName, repositoryName, label, number, "remove");
+        }
+
+        public virtual IEnumerable<string> RemoveLabel(User user, Repository repository, string label, Issue issue)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            Validation.ValidateArgument(issue, "issue");
+            return RemoveLabel(user.Login, repository.Name, label, issue.Number);
         }
 
         public virtual Comment AddComment(string userName, string repositoryName, int number, string comment)
@@ -214,6 +283,14 @@ namespace YukiYume.GitHub.Json
             return !string.IsNullOrEmpty(data)
                        ? JsonDeserializer.Deserialize<CommentContainer>(data).Comment
                        : null;
+        }
+
+        public virtual Comment AddComment(User user, Repository repository, Issue issue, Comment comment)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            Validation.ValidateArgument(issue, "issue");
+            Validation.ValidateArgument(comment, "comment");
+            return AddComment(user.Login, repository.Name, issue.Number, comment.CommentText);
         }
 
         #region Validation

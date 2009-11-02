@@ -36,33 +36,40 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub.Json
 {
-    public class JsonObjectRepository : BaseRepository, IObjectRepository
+    /// <summary>
+    /// JSON implementation of IObjectService
+    /// </summary>
+    public class JsonObjectService : BaseService, IObjectService
     {
-        public JsonObjectRepository()
+        public JsonObjectService()
             : base(FormatType.Json)
         {
         }
 
-        public JsonObjectRepository(string gitHubUserName, string gitHubApiToken)
+        public JsonObjectService(string gitHubUserName, string gitHubApiToken)
             : base(FormatType.Json, gitHubUserName, gitHubApiToken)
         {
         }
 
-        public virtual IEnumerable<Tree> TreeList(string userName, string repositoryName, string treeSha)
+        public virtual IEnumerable<TreeEntry> TreeList(string userName, string repositoryName, string treeSha)
         {
             ValidateTreeListArguments(userName, repositoryName, treeSha);
-
             var data = Client.Download(string.Format("tree/show/{0}/{1}/{2}", userName, repositoryName, treeSha));
 
             return !string.IsNullOrEmpty(data) ?
                 JsonDeserializer.Deserialize<TreeContainer>(data).Tree :
-                new List<Tree>();
+                new List<TreeEntry>();
+        }
+
+        public virtual IEnumerable<TreeEntry> TreeList(User user, Repository repository, string treeSha)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            return TreeList(user.Login, repository.Name, treeSha);
         }
 
         public virtual Blob GetBlobMeta(string userName, string repositoryName, string treeSha, string path)
         {
             ValidateGetBlobMetaArguments(userName, repositoryName, treeSha, path);
-
             var data = Client.Download(string.Format("blob/show/{0}/{1}/{2}/{3}", userName, repositoryName, treeSha, path));
 
             return !string.IsNullOrEmpty(data) ?
@@ -70,11 +77,22 @@ namespace YukiYume.GitHub.Json
                 null;
         }
 
+        public virtual Blob GetBlobMeta(User user, Repository repository, string treeSha, string path)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            return GetBlobMeta(user.Login, repository.Name, treeSha, path);
+        }
+
         public virtual byte[] GetBlob(string userName, string repositoryName, string blobSha)
         {
             ValidateGetBlobArguments(userName, repositoryName, blobSha);
-
             return Client.DownloadData(string.Format("blob/show/{0}/{1}/{2}", userName, repositoryName, blobSha));
+        }
+
+        public virtual byte[] GetBlob(User user, Repository repository, string blobSha)
+        {
+            Validation.ValidateUserRepository(user, repository);
+            return GetBlob(user.Login, repository.Name, blobSha);
         }
 
         #region Validation
@@ -104,7 +122,7 @@ namespace YukiYume.GitHub.Json
         protected class TreeContainer
         {
             [JsonName("tree")]
-            public List<Tree> Tree { get; set; }
+            public List<TreeEntry> Tree { get; set; }
         }
 
         protected class BlobContainer

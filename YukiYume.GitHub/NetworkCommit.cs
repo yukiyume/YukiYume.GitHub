@@ -37,32 +37,63 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsulates network commit information
+    /// See http://develop.github.com/p/network.html for more information
+    /// </summary>
     public class NetworkCommit
     {
+        /// <summary>
+        /// parents
+        /// </summary>
         [JsonName("parents")]
         public IEnumerable<IEnumerable<object>> Parents { get; set; }
 
+        /// <summary>
+        /// commit author's full name
+        /// </summary>
         [JsonName("author")]
         public virtual string Author { get; set; }
 
+        /// <summary>
+        /// network commit time
+        /// </summary>
         [JsonName("time")]
         public virtual int Time { get; set; }
 
+        /// <summary>
+        /// SHA for the commit
+        /// </summary>
         [JsonName("id")]
         public virtual string Id { get; set; }
 
+        /// <summary>
+        /// date of the commit
+        /// </summary>
         [JsonName("date")]
         public virtual DateTime Date { get; set; }
 
+        /// <summary>
+        /// gravatar
+        /// </summary>
         [JsonName("gravatar")]
         public virtual string Gravatar { get; set; }
 
+        /// <summary>
+        /// space
+        /// </summary>
         [JsonName("space")]
         public virtual int Space { get; set; }
 
+        /// <summary>
+        /// commit message
+        /// </summary>
         [JsonName("message")]
         public virtual string Message { get; set; }
 
+        /// <summary>
+        /// user login
+        /// </summary>
         [JsonName("login")]
         public virtual string Login { get; set; }
 

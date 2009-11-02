@@ -35,21 +35,26 @@ using System.Text.RegularExpressions;
 using log4net;
 using YukiYume.GitHub.Configuration;
 using YukiYume.Json;
+using Ninject;
+using System.Web;
 #endregion
 
 namespace YukiYume.GitHub.Json
 {
-    public class JsonUserRepository : BaseRepository, IUserRepository
+    /// <summary>
+    /// JSON implementation of IUserService
+    /// </summary>
+    public class JsonUserService : BaseService, IUserService
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(JsonUserRepository));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(JsonUserService));
         protected static readonly Regex ValidEmail = new Regex(@"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", RegexOptions.Compiled);
 
-        public JsonUserRepository()
+        public JsonUserService()
             : base(FormatType.Json)
         {
         }
 
-        public JsonUserRepository(string gitHubUserName, string gitHubApiToken)
+        public JsonUserService(string gitHubUserName, string gitHubApiToken)
             : base(FormatType.Json, gitHubUserName, gitHubApiToken)
         {
         }
@@ -65,7 +70,7 @@ namespace YukiYume.GitHub.Json
         public virtual IEnumerable<SearchUser> Search(string searchName)
         {
             Validation.ValidateStringArgument(searchName, "searchName");
-            var data = Client.Download(string.Format("user/search/{0}", searchName));
+            var data = Client.Download(string.Format("user/search/{0}", HttpUtility.UrlEncode(searchName)));
 
             return !string.IsNullOrEmpty(data) ? JsonDeserializer.Deserialize<SearchContainer>(data).Users : new List<SearchUser>();
         }
@@ -73,14 +78,12 @@ namespace YukiYume.GitHub.Json
         public virtual IEnumerable<string> Followers(User user)
         {
             Validation.ValidateArgument(user, "user");
-
             return Followers(user.Login);
         }
 
         public virtual IEnumerable<string> Followers(SearchUser user)
         {
             Validation.ValidateArgument(user, "user");
-
             return Followers(user.UserName);
         }
 
@@ -95,14 +98,12 @@ namespace YukiYume.GitHub.Json
         public virtual IEnumerable<string> Following(User user)
         {
             Validation.ValidateArgument(user, "user");
-
             return Following(user.Login);
         }
 
         public virtual IEnumerable<string> Following(SearchUser user)
         {
             Validation.ValidateArgument(user, "user");
-
             return Following(user.UserName);
         }
 
@@ -117,14 +118,12 @@ namespace YukiYume.GitHub.Json
         public virtual IEnumerable<string> Follow(User user)
         {
             Validation.ValidateArgument(user, "user");
-
             return Follow(user.Login);
         }
 
         public virtual IEnumerable<string> Follow(SearchUser user)
         {
             Validation.ValidateArgument(user, "user");
-
             return Follow(user.UserName);
         }
 
@@ -139,21 +138,18 @@ namespace YukiYume.GitHub.Json
         public virtual IEnumerable<string> Unfollow(User user)
         {
             Validation.ValidateArgument(user, "user");
-
             return Unfollow(user.Login);
         }
 
         public virtual IEnumerable<string> Unfollow(SearchUser user)
         {
             Validation.ValidateArgument(user, "user");
-
             return Unfollow(user.UserName);
         }
 
         public virtual IEnumerable<string> Unfollow(string userName)
         {
             Validation.ValidateStringArgument(userName, "userName");
-
             var data = Client.Download(string.Format("user/unfollow/{0}", userName), true);
 
             return !string.IsNullOrEmpty(data) ? JsonDeserializer.Deserialize<FollowContainer>(data).Users : new List<string>();
@@ -162,14 +158,12 @@ namespace YukiYume.GitHub.Json
         public virtual IEnumerable<PublicKey> GetKeys()
         {
             var data = Client.Download("user/keys", true);
-            Log.Debug(data);
             return !string.IsNullOrEmpty(data) ? JsonDeserializer.Deserialize<KeyContainer>(data).Keys : new List<PublicKey>();
         }
 
         public virtual IEnumerable<PublicKey> AddKey(PublicKey publicKey)
         {
             Validation.ValidateArgument(publicKey, "publicKey");
-
             return AddKey(publicKey.Title, publicKey.Key);
         }
 
@@ -177,7 +171,6 @@ namespace YukiYume.GitHub.Json
         {
             Validation.ValidateStringArgument(title, "title");
             Validation.ValidateStringArgument(key, "key");
-
             var data = Client.Download("user/key/add", true, new NameValueCollection { { "title", title }, { "key", key } });
 
             return !string.IsNullOrEmpty(data) ? JsonDeserializer.Deserialize<KeyContainer>(data).Keys : new List<PublicKey>();
@@ -186,14 +179,12 @@ namespace YukiYume.GitHub.Json
         public virtual IEnumerable<PublicKey> RemoveKey(PublicKey publicKey)
         {
             Validation.ValidateArgument(publicKey, "publicKey");
-
             return RemoveKey(publicKey.Id);
         }
 
         public virtual IEnumerable<PublicKey> RemoveKey(int id)
         {
             Validation.ValidateArgument(id, arg => arg <= 0, "id cannot be 0 or negative", "id");
-
             var data = Client.Download("user/key/remove", true, new NameValueCollection { { "id", id.ToString() } });
 
             return !string.IsNullOrEmpty(data) ? JsonDeserializer.Deserialize<KeyContainer>(data).Keys : new List<PublicKey>();
@@ -202,7 +193,6 @@ namespace YukiYume.GitHub.Json
         public virtual IEnumerable<string> GetEmails()
         {
             var data = Client.Download("user/emails", true);
-
             return !string.IsNullOrEmpty(data) ? JsonDeserializer.Deserialize<EmailContainer>(data).Emails : new List<string>();
         }
 
@@ -211,8 +201,8 @@ namespace YukiYume.GitHub.Json
             ValidateEmail(email);
             var data = Client.Download("user/email/add", true, new NameValueCollection { { "email", email } });
 
-            return !string.IsNullOrEmpty(data) ? 
-                JsonDeserializer.Deserialize<EmailContainer>(data).Emails : 
+            return !string.IsNullOrEmpty(data) ?
+                JsonDeserializer.Deserialize<EmailContainer>(data).Emails :
                 new List<string>();
         }
 
@@ -221,9 +211,40 @@ namespace YukiYume.GitHub.Json
             ValidateEmail(email);
             var data = Client.Download("user/email/remove", true, new NameValueCollection { { "email", email } });
 
-            return !string.IsNullOrEmpty(data) ? 
-                JsonDeserializer.Deserialize<EmailContainer>(data).Emails : 
+            return !string.IsNullOrEmpty(data) ?
+                JsonDeserializer.Deserialize<EmailContainer>(data).Emails :
                 new List<string>();
+        }
+
+        public virtual User Update(string name, string email, string blog, string company, string location)
+        {
+            var parameters = new NameValueCollection();
+            AddUpdateParameter(name, "values[name]", parameters);
+            AddUpdateParameter(email, "values[email]", parameters);
+            AddUpdateParameter(blog, "values[blog]", parameters);
+            AddUpdateParameter(company, "values[company]", parameters);
+            AddUpdateParameter(location, "values[location]", parameters);
+
+            if (parameters.Count == 0)
+                throw new ArgumentException("at least one Update parameter must not be null or empty");
+
+            var data = Client.Download(string.Format("user/show/{0}", Client.LoginInfo["login"]), true, parameters);
+
+            return !string.IsNullOrEmpty(data) ?
+                JsonDeserializer.Deserialize<UserContainer>(data).User :
+                null;
+        }
+
+        protected static void AddUpdateParameter(string name, string formName, NameValueCollection parameters)
+        {
+            if (name != null)
+                parameters.Add(formName, name);
+        }
+
+        public virtual User Update(User user)
+        {
+            Validation.ValidateArgument(user, "user");
+            return Update(user.Name, user.Email, user.Blog, user.Company, user.Location);
         }
 
         #region Validation

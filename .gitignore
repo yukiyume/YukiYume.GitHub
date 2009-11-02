@@ -9,6 +9,6 @@ YukiYume.GitHub.5.0.resharper.user
 /YukiYume.GitHub.Tests/obj/
 /YukiYume.GitHub.Tests/YukiYume.GitHub.Tests.csproj.user
 /Lib/log4net.xml
-/Lib/Ninject.Core.pdb
-/Lib/Ninject.Core.xml
+/Lib/Ninject.pdb
+/Lib/Ninject.xml
 /Lib/nunit.framework.xml

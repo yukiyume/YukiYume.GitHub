@@ -36,6 +36,9 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class PublicKey
     {
         [JsonName("title")]

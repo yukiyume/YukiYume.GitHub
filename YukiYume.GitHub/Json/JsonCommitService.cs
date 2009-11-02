@@ -36,14 +36,17 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub.Json
 {
-    public class JsonCommitRepository : BaseRepository, ICommitRepository
+    /// <summary>
+    /// JSON implementation of ICommitService
+    /// </summary>
+    public class JsonCommitService : BaseService, ICommitService
     {
-        public JsonCommitRepository()
+        public JsonCommitService()
             : base(FormatType.Json)
         {
         }
 
-        public JsonCommitRepository(string gitHubUserName, string gitHubApiToken)
+        public JsonCommitService(string gitHubUserName, string gitHubApiToken)
             : base(FormatType.Json, gitHubUserName, gitHubApiToken)
         {
         }
@@ -59,7 +62,7 @@ namespace YukiYume.GitHub.Json
                 new List<Commit>();
         }
 
-        public IEnumerable<Commit> List(User user, Repository repository, string branchName)
+        public virtual IEnumerable<Commit> List(User user, Repository repository, string branchName)
         {
             Validation.ValidateArgument(user, "user");
             Validation.ValidateArgument(repository, "repository");
@@ -78,7 +81,7 @@ namespace YukiYume.GitHub.Json
                 new List<Commit>();
         }
 
-        public IEnumerable<Commit> List(User user, Repository repository, string branchName, string path)
+        public virtual IEnumerable<Commit> List(User user, Repository repository, string branchName, string path)
         {
             Validation.ValidateArgument(user, "user");
             Validation.ValidateArgument(repository, "repository");
@@ -97,7 +100,7 @@ namespace YukiYume.GitHub.Json
                 null;
         }
 
-        public Commit Get(User user, Repository repository, string sha)
+        public virtual Commit Get(User user, Repository repository, string sha)
         {
             Validation.ValidateArgument(user, "user");
             Validation.ValidateArgument(repository, "repository");

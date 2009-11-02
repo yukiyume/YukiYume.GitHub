@@ -38,24 +38,33 @@ using YukiYume.GitHub.Configuration;
 
 namespace YukiYume.GitHub.Tests
 {
+    /// <summary>
+    /// Unit Tests for ICommitService
+    /// </summary>
     [TestFixture]
-    public class CommitRepositoryFixture
+    public class CommitServiceFixture
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(CommitRepositoryFixture));
-        private ICommitRepository CommitRepository { get; set; }
+        private static readonly ILog Log = LogManager.GetLogger(typeof(CommitServiceFixture));
+        private ICommitService CommitRepository { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            CommitRepository = Kernel.Get<ICommitRepository>();
+            CommitRepository = GitHubServiceLocator.Get<ICommitService>();
         }
 
         #region ListBranch
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void ListBranchNullUser()
+        public void ListBranchNullUserString()
         {
             CommitRepository.List(null, "repos", "branch");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void ListBranchNullUser()
+        {
+            CommitRepository.List(null, new Repository(), "branch");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -65,9 +74,15 @@ namespace YukiYume.GitHub.Tests
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void ListBranchNullRepository()
+        public void ListBranchNullRepositoryString()
         {
             CommitRepository.List("user", null, "branch");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void ListBranchNullRepository()
+        {
+            CommitRepository.List(new User(), null, "branch");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -104,6 +119,21 @@ namespace YukiYume.GitHub.Tests
         }
 
         [Test]
+        public void ListBranch2()
+        {
+            var commitList = CommitRepository.List(new User { Login = Config.GitHub.Authentication.UserName }, new Repository { Name = "YukiYume.GitHub" }, "master");
+            Assert.That(commitList != null);
+            Assert.That(commitList.Count() > 0);
+
+            commitList.Each(commit =>
+            {
+                Assert.That(commit != null);
+
+                Log.Info(commit);
+            });
+        }
+
+        [Test]
         public void ListUnknownBranch()
         {
             var commitList = CommitRepository.List(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "qqqqqqqqqq");
@@ -116,9 +146,15 @@ namespace YukiYume.GitHub.Tests
         #region ListFile
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void ListFileNullUser()
+        public void ListFileNullUserString()
         {
             CommitRepository.List(null, "repos", "branch", "path");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void ListFileNullUser()
+        {
+            CommitRepository.List(null, new Repository(), "branch", "path");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -128,9 +164,15 @@ namespace YukiYume.GitHub.Tests
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void ListFileNullRepository()
+        public void ListFileNullRepositoryString()
         {
             CommitRepository.List("user", null, "branch", "path");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void ListFileNullRepository()
+        {
+            CommitRepository.List(new User(), null, "branch", "path");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -173,7 +215,20 @@ namespace YukiYume.GitHub.Tests
             commitList.Each(commit =>
             {
                 Assert.That(commit != null);
+                Log.Info(commit);
+            });
+        }
 
+        [Test]
+        public void ListFile2()
+        {
+            var commitList = CommitRepository.List(new User { Login = Config.GitHub.Authentication.UserName }, new Repository { Name = "YukiYume.GitHub" }, "master", "YukiYume.GitHub/User.cs");
+            Assert.That(commitList != null);
+            Assert.That(commitList.Count() > 0);
+
+            commitList.Each(commit =>
+            {
+                Assert.That(commit != null);
                 Log.Info(commit);
             });
         }
@@ -191,9 +246,15 @@ namespace YukiYume.GitHub.Tests
         #region Get
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetNullUser()
+        public void GetNullUserString()
         {
             CommitRepository.Get(null, "repos", "sha");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetNullUser()
+        {
+            CommitRepository.Get(null, new Repository(), "sha");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -203,9 +264,15 @@ namespace YukiYume.GitHub.Tests
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
-        public void GetNullRepository()
+        public void GetNullRepositoryString()
         {
             CommitRepository.Get("user", null, "sha");
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException))]
+        public void GetNullRepository()
+        {
+            CommitRepository.Get(new User(), null, "sha");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -229,9 +296,19 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void GetExistingSha()
         {
-            var commit = CommitRepository.Get(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "88bfffdeb78653f66225fa1abdb314f0d3cad20f");
+            var commit = CommitRepository.Get(Config.GitHub.Authentication.UserName, "YukiYume.GitHub", "cfb534dad9cdf552c90c41a88d276c03e6f98f24");
             Assert.That(commit != null);
-            Assert.That(commit.Id == "88bfffdeb78653f66225fa1abdb314f0d3cad20f");
+            Assert.That(commit.Id == "cfb534dad9cdf552c90c41a88d276c03e6f98f24");
+
+            Log.Info(commit);
+        }
+
+        [Test]
+        public void GetExistingSha2()
+        {
+            var commit = CommitRepository.Get(new User { Login = Config.GitHub.Authentication.UserName }, new Repository { Name = "YukiYume.GitHub" }, "cfb534dad9cdf552c90c41a88d276c03e6f98f24");
+            Assert.That(commit != null);
+            Assert.That(commit.Id == "cfb534dad9cdf552c90c41a88d276c03e6f98f24");
 
             Log.Info(commit);
         }

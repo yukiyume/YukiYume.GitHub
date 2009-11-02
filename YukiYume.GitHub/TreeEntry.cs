@@ -30,15 +30,52 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using YukiYume.Json;
 
 #endregion
 
 namespace YukiYume.GitHub
 {
-    public interface INetworkRepository
+    /// <summary>
+    /// Encapsulates information about a Git tree entry
+    /// See http://develop.github.com/p/object.html for more information
+    /// </summary>
+    public class TreeEntry
     {
-        NetworkMeta GetNetworkMeta(string userName, string repository);
-        IEnumerable<NetworkCommit> GetNetworkData(string userName, string repository, string netHash);
-        IEnumerable<NetworkCommit> GetNetworkData(string userName, string repository, string netHash, int start, int end);
+        /// <summary>
+        /// name of the tree
+        /// </summary>
+        [JsonName("name")]
+        public virtual string Name { get; set; }
+
+        /// <summary>
+        /// SHA hash for the tree
+        /// </summary>
+        [JsonName("sha")]
+        public virtual string Sha { get; set; }
+
+        /// <summary>
+        /// file mode
+        /// </summary>
+        [JsonName("mode")]
+        public virtual string Mode { get; set; }
+
+        /// <summary>
+        /// tree type
+        /// </summary>
+        [JsonName("type")]
+        public virtual string Type { get; set; }
+
+        public override string ToString()
+        {
+            var infoBuilder = new StringBuilder();
+
+            infoBuilder.AppendFormat("\nName: {0}\n", Name ?? string.Empty);
+            infoBuilder.AppendFormat("Sha: {0}\n", Sha ?? string.Empty);
+            infoBuilder.AppendFormat("Mode: {0}\n", Mode ?? string.Empty);
+            infoBuilder.AppendFormat("Type: {0}\n", Type ?? string.Empty);
+
+            return infoBuilder.ToString();
+        }
     }
 }

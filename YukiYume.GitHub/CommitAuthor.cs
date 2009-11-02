@@ -36,11 +36,21 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsluates information about a commit's author
+    /// See http://develop.github.com/p/commits.html for more information
+    /// </summary>
     public class CommitAuthor
     {
+        /// <summary>
+        /// full name of the author/committer
+        /// </summary>
         [JsonName("name")]
         public virtual string Name { get; set; }
 
+        /// <summary>
+        /// e-mail address of the author/committer
+        /// </summary>
         [JsonName("email")]
         public virtual string Email { get; set; }
 

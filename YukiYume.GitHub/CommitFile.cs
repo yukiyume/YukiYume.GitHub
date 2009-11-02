@@ -36,11 +36,21 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub
 {
+    /// <summary>
+    /// Encapsulates information about a file added/removed/modified in a commit
+    /// See http://develop.github.com/p/commits.html for more information
+    /// </summary>
     public class CommitFile
     {
+        /// <summary>
+        /// filename
+        /// </summary>
         [JsonName("filename")]
         public virtual string FileName { get; set; }
 
+        /// <summary>
+        /// diff (if a modification)
+        /// </summary>
         [JsonName("diff")]
         public virtual string Diff { get; set; }
 

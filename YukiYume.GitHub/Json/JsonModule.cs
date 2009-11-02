@@ -30,23 +30,78 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Ninject.Core;
-using Ninject.Core.Behavior;
+using Ninject;
+using Ninject.Modules;
 
 #endregion
 
 namespace YukiYume.GitHub.Json
 {
-    public class JsonModule : StandardModule
+    /// <summary>
+    /// JsonModule is a NinjectModule that binds the GitHub services to the Json implementations of them
+    /// </summary>
+    public class JsonModule : NinjectModule
     {
+        private string GitHubUserName { get; set; }
+        private string GitHubApiToken { get; set; }
+
+        /// <summary>
+        /// The default constructor will setup the GitHub services using the 
+        /// GitHub username and api token as specified in the config file
+        /// </summary>
+        public JsonModule()
+        {
+        }
+
+        /// <summary>
+        /// This constructor will setup the GitHub services using the
+        /// specified GitHub username and api token
+        /// </summary>
+        /// <param name="gitHubUserName">GitHub API username</param>
+        /// <param name="gitHubApiToken">GitHub API token</param>
+        public JsonModule(string gitHubUserName, string gitHubApiToken)
+        {
+            GitHubUserName = gitHubUserName;
+            GitHubApiToken = gitHubApiToken;
+        }
+
         public override void Load()
         {
-            Bind<IUserRepository>().To<JsonUserRepository>();
-            Bind<IIssueRepository>().To<JsonIssueRepository>();
-            Bind<INetworkRepository>().To<JsonNetworkRepository>();
-            Bind<ICommitRepository>().To<JsonCommitRepository>();
-            Bind<IObjectRepository>().To<JsonObjectRepository>();
-            Bind<IGitRepository>().To<JsonGitRepository>();
+            if (!string.IsNullOrEmpty(GitHubUserName) && !string.IsNullOrEmpty(GitHubApiToken))
+            {
+                Bind<IUserService>().To<JsonUserService>()
+                    .WithConstructorArgument("gitHubUserName", GitHubUserName)
+                    .WithConstructorArgument("gitHubApiToken", GitHubApiToken);
+
+                Bind<IIssueService>().To<JsonIssueService>()
+                    .WithConstructorArgument("gitHubUserName", GitHubUserName)
+                    .WithConstructorArgument("gitHubApiToken", GitHubApiToken);
+
+                Bind<INetworkService>().To<JsonNetworkService>()
+                    .WithConstructorArgument("gitHubUserName", GitHubUserName)
+                    .WithConstructorArgument("gitHubApiToken", GitHubApiToken);
+
+                Bind<ICommitService>().To<JsonCommitService>()
+                    .WithConstructorArgument("gitHubUserName", GitHubUserName)
+                    .WithConstructorArgument("gitHubApiToken", GitHubApiToken);
+
+                Bind<IObjectService>().To<JsonObjectService>()
+                    .WithConstructorArgument("gitHubUserName", GitHubUserName)
+                    .WithConstructorArgument("gitHubApiToken", GitHubApiToken);
+
+                Bind<IRepositoryService>().To<JsonRepositoryService>()
+                    .WithConstructorArgument("gitHubUserName", GitHubUserName)
+                    .WithConstructorArgument("gitHubApiToken", GitHubApiToken);
+            }
+            else
+            {
+                Bind<IUserService>().To<JsonUserService>();
+                Bind<IIssueService>().To<JsonIssueService>();
+                Bind<INetworkService>().To<JsonNetworkService>();
+                Bind<ICommitService>().To<JsonCommitService>();
+                Bind<IObjectService>().To<JsonObjectService>();
+                Bind<IRepositoryService>().To<JsonRepositoryService>();
+            }
         }
     }
 }

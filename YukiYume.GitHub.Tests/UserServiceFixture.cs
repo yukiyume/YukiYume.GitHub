@@ -43,17 +43,19 @@ using YukiYume.Json;
 
 namespace YukiYume.GitHub.Tests
 {
+    /// <summary>
+    /// Unit Tests for IUserRepository
+    /// </summary>
     [TestFixture]
-    public class UserRepositoryFixture
+    public class UserServiceFixture
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(UserRepositoryFixture));
-
-        private IUserRepository UserRepository { get; set; }
+        private static readonly ILog Log = LogManager.GetLogger(typeof(UserServiceFixture));
+        private IUserService UserService { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            UserRepository = Kernel.Get<IUserRepository>();
+            UserService = GitHubServiceLocator.Get<IUserService>();
         }
 
         #region Search
@@ -61,7 +63,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void SearchMultipleResults()
         {
-            var users = UserRepository.Search("chacon");
+            var users = UserService.Search("chacon");
 
             Assert.That(users != null);
             Assert.That(users.Count() > 0);
@@ -78,19 +80,19 @@ namespace YukiYume.GitHub.Tests
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void SearchNull()
         {
-            UserRepository.Search(null);
+            UserService.Search(null);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void SearchEmpty()
         {
-            UserRepository.Search(string.Empty);
+            UserService.Search(string.Empty);
         }
 
         [Test]
         public void SearchSingleResult()
         {
-            var users = UserRepository.Search("kristophergbaker");
+            var users = UserService.Search("kristophergbaker");
 
             Assert.That(users != null);
             Assert.That(users.Count() == 1);
@@ -107,7 +109,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void SearchNoResults()
         {
-            var users = UserRepository.Search("qqqqqqqqqqqqqqqqqqq");
+            var users = UserService.Search("qqqqqqqqqqqqqqqqqqq");
 
             Assert.That(users != null);
             Assert.That(users.Count() == 0);
@@ -120,19 +122,19 @@ namespace YukiYume.GitHub.Tests
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void GetNull()
         {
-            UserRepository.Get(null);
+            UserService.Get(null);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void GetEmpty()
         {
-            UserRepository.Get(string.Empty);
+            UserService.Get(string.Empty);
         }
 
         [Test]
         public void GetExistingNonAuthenticated()
         {
-            var user = UserRepository.Get("schacon");
+            var user = UserService.Get("schacon");
             Assert.That(user != null);
             Assert.That(user.Id == 70);
             Assert.That(string.Compare(user.Login, "schacon", true) == 0);
@@ -142,7 +144,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void GetExistingAuthenticated()
         {
-            var user = UserRepository.Get(Config.GitHub.Authentication.UserName);
+            var user = UserService.Get(Config.GitHub.Authentication.UserName);
             Assert.That(user != null);
             Assert.That(user.Id > 0);
             Assert.That(string.Compare(user.Login, Config.GitHub.Authentication.UserName, true) == 0);
@@ -152,7 +154,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void GetNonExisting()
         {
-            var user = UserRepository.Get("qqqqqqqqqqqqqqqq");
+            var user = UserService.Get("qqqqqqqqqqqqqqqq");
             Assert.That(user == null);
         }
 
@@ -164,33 +166,33 @@ namespace YukiYume.GitHub.Tests
         public void FollowersNull()
         {
             const string nullString = null;
-            UserRepository.Followers(nullString);
+            UserService.Followers(nullString);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void FollowersNullUser()
         {
             const User nullUser = null;
-            UserRepository.Followers(nullUser);
+            UserService.Followers(nullUser);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void FollowersNullSearchUser()
         {
             const SearchUser nullSearchUser = null;
-            UserRepository.Followers(nullSearchUser);
+            UserService.Followers(nullSearchUser);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void FollowersEmpty()
         {
-            UserRepository.Followers(string.Empty);
+            UserService.Followers(string.Empty);
         }
 
         [Test]
         public void FollowersMany()
         {
-            var followers = UserRepository.Followers("schacon");
+            var followers = UserService.Followers("schacon");
 
             Assert.That(followers != null);
             Assert.That(followers.Count() > 0);
@@ -205,7 +207,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void FollowersManyUser()
         {
-            var followers = UserRepository.Followers(new User { Login = "schacon" });
+            var followers = UserService.Followers(new User { Login = "schacon" });
 
             Assert.That(followers != null);
             Assert.That(followers.Count() > 0);
@@ -220,7 +222,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void FollowersManySearchUser()
         {
-            var followers = UserRepository.Followers(new SearchUser { UserName = "schacon" });
+            var followers = UserService.Followers(new SearchUser { UserName = "schacon" });
 
             Assert.That(followers != null);
             Assert.That(followers.Count() > 0);
@@ -235,7 +237,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void FollowersNonExisting()
         {
-            var followers = UserRepository.Followers("qqqqqqqqqqqqqqqq");
+            var followers = UserService.Followers("qqqqqqqqqqqqqqqq");
 
             Assert.That(followers != null);
             Assert.That(followers.Count() == 0);
@@ -249,33 +251,33 @@ namespace YukiYume.GitHub.Tests
         public void FollowingNull()
         {
             const string nullString = null;
-            UserRepository.Following(nullString);
+            UserService.Following(nullString);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void FollowingNullUser()
         {
             const User nullUser = null;
-            UserRepository.Following(nullUser);
+            UserService.Following(nullUser);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void FollowingNullSearchUser()
         {
             const SearchUser nullSearchUser = null;
-            UserRepository.Following(nullSearchUser);
+            UserService.Following(nullSearchUser);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void FollowingEmpty()
         {
-            UserRepository.Following(string.Empty);
+            UserService.Following(string.Empty);
         }
 
         [Test]
         public void FollowingMany()
         {
-            var following = UserRepository.Following("schacon");
+            var following = UserService.Following("schacon");
 
             Assert.That(following != null);
             Assert.That(following.Count() > 0);
@@ -290,7 +292,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void FollowingManyUser()
         {
-            var following = UserRepository.Following(new User { Login = "schacon" });
+            var following = UserService.Following(new User { Login = "schacon" });
 
             Assert.That(following != null);
             Assert.That(following.Count() > 0);
@@ -305,7 +307,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void FollowingManySearchUser()
         {
-            var following = UserRepository.Following(new SearchUser { UserName = "schacon" });
+            var following = UserService.Following(new SearchUser { UserName = "schacon" });
 
             Assert.That(following != null);
             Assert.That(following.Count() > 0);
@@ -320,7 +322,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void FollowingNonExisting()
         {
-            var followers = UserRepository.Following("qqqqqqqqqqqqqqqq");
+            var followers = UserService.Following("qqqqqqqqqqqqqqqq");
 
             Assert.That(followers != null);
             Assert.That(followers.Count() == 0);
@@ -334,33 +336,33 @@ namespace YukiYume.GitHub.Tests
         public void FollowNull()
         {
             const string nullString = null;
-            UserRepository.Follow(nullString);
+            UserService.Follow(nullString);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void FollowNullUser()
         {
             const User nullUser = null;
-            UserRepository.Follow(nullUser);
+            UserService.Follow(nullUser);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void FollowNullSearchUser()
         {
             const SearchUser nullSearchUser = null;
-            UserRepository.Follow(nullSearchUser);
+            UserService.Follow(nullSearchUser);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void FollowEmpty()
         {
-            UserRepository.Follow(string.Empty);
+            UserService.Follow(string.Empty);
         }
 
         [Test]
         public void FollowExisting()
         {
-            var result = UserRepository.Follow("schacon");
+            var result = UserService.Follow("schacon");
             Assert.That(result != null);
             Assert.That(result.Count() > 0);
 
@@ -374,7 +376,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void FollowExistingUser()
         {
-            var result = UserRepository.Follow(new User { Login = "schacon" });
+            var result = UserService.Follow(new User { Login = "schacon" });
             Assert.That(result != null);
             Assert.That(result.Count() > 0);
 
@@ -388,7 +390,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void FollowExistingSearchUser()
         {
-            var result = UserRepository.Follow(new SearchUser { UserName = "schacon" });
+            var result = UserService.Follow(new SearchUser { UserName = "schacon" });
             Assert.That(result != null);
             Assert.That(result.Count() > 0);
 
@@ -407,33 +409,33 @@ namespace YukiYume.GitHub.Tests
         public void UnfollowNull()
         {
             const string nullString = null;
-            UserRepository.Unfollow(nullString);
+            UserService.Unfollow(nullString);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void UnfollowNullUser()
         {
             const User nullUser = null;
-            UserRepository.Unfollow(nullUser);
+            UserService.Unfollow(nullUser);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void UnfollowNullSearchUser()
         {
             const SearchUser nullSearchUser = null;
-            UserRepository.Unfollow(nullSearchUser);
+            UserService.Unfollow(nullSearchUser);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void UnfollowEmpty()
         {
-            UserRepository.Unfollow(string.Empty);
+            UserService.Unfollow(string.Empty);
         }
 
         [Test]
         public void UnfollowExisting()
         {
-            var result = UserRepository.Unfollow("schacon");
+            var result = UserService.Unfollow("schacon");
             Assert.That(result != null);
             Assert.That(result.Count() > 0);
 
@@ -447,7 +449,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void UnfollowExistingUser()
         {
-            var result = UserRepository.Unfollow(new User { Login = "schacon" });
+            var result = UserService.Unfollow(new User { Login = "schacon" });
             Assert.That(result != null);
             Assert.That(result.Count() > 0);
 
@@ -461,7 +463,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void UnfollowExistingSearchUser()
         {
-            var result = UserRepository.Unfollow(new SearchUser { UserName = "schacon" });
+            var result = UserService.Unfollow(new SearchUser { UserName = "schacon" });
             Assert.That(result != null);
             Assert.That(result.Count() > 0);
 
@@ -479,7 +481,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void GetKeys()
         {
-            var keys = UserRepository.GetKeys();
+            var keys = UserService.GetKeys();
             Assert.That(keys != null);
             Assert.That(keys.Count() > 0);
 
@@ -500,31 +502,31 @@ namespace YukiYume.GitHub.Tests
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void AddKeyNullTitle()
         {
-            UserRepository.AddKey(null, "asdf");
+            UserService.AddKey(null, "asdf");
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void AddKeyNullKey()
         {
-            UserRepository.AddKey("asdf", null);
+            UserService.AddKey("asdf", null);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void AddKeyEmptyTitle()
         {
-            UserRepository.AddKey(string.Empty, "asdf");
+            UserService.AddKey(string.Empty, "asdf");
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void AddKeyEmptyKey()
         {
-            UserRepository.AddKey("asdf", string.Empty);
+            UserService.AddKey("asdf", string.Empty);
         }
 
         [Test]
         public void AddKey()
         {
-            var keys = UserRepository.AddKey("testkey", "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAqhPcajyWiuO+LTR4yCms4RyxeWWqRYL+LxApm5NIJBOhAI+jkwhYea7acQZjl23a2V8QkQ907KeO4AnMjo3Aq+OU1KOw9WU845h1HZ5CFUX/nu0Qg8FwptiUAngXhlImVZ/JOZYqGTLAL0fmU6gPiwxrWsbEtR0kVXoxABFIYks=");
+            var keys = UserService.AddKey("testkey", "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAqhPcajyWiuO+LTR4yCms4RyxeWWqRYL+LxApm5NIJBOhAI+jkwhYea7acQZjl23a2V8QkQ907KeO4AnMjo3Aq+OU1KOw9WU845h1HZ5CFUX/nu0Qg8FwptiUAngXhlImVZ/JOZYqGTLAL0fmU6gPiwxrWsbEtR0kVXoxABFIYks=");
 
             var testkey = (from key in keys
                            where key.Title == "testkey"
@@ -537,7 +539,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void AddKeyPublicKey()
         {
-            var keys = UserRepository.AddKey(new PublicKey { Title = "testkey", Key = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAqhPcajyWiuO+LTR4yCms4RyxeWWqRYL+LxApm5NIJBOhAI+jkwhYea7acQZjl23a2V8QkQ907KeO4AnMjo3Aq+OU1KOw9WU845h1HZ5CFUX/nu0Qg8FwptiUAngXhlImVZ/JOZYqGTLAL0fmU6gPiwxrWsbEtR0kVXoxABFIYks=" });
+            var keys = UserService.AddKey(new PublicKey { Title = "testkey", Key = "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAqhPcajyWiuO+LTR4yCms4RyxeWWqRYL+LxApm5NIJBOhAI+jkwhYea7acQZjl23a2V8QkQ907KeO4AnMjo3Aq+OU1KOw9WU845h1HZ5CFUX/nu0Qg8FwptiUAngXhlImVZ/JOZYqGTLAL0fmU6gPiwxrWsbEtR0kVXoxABFIYks=" });
 
             var testkey = (from key in keys
                            where key.Title == "testkey"
@@ -554,13 +556,13 @@ namespace YukiYume.GitHub.Tests
         [Test, ExpectedException(typeof(ArgumentException))]
         public void RemoveKeyBadId()
         {
-            UserRepository.RemoveKey(-4);
+            UserService.RemoveKey(-4);
         }
 
         [Test]
         public void RemoveKey()
         {
-            var keys = UserRepository.AddKey("testkey", "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAqhPcajyWiuO+LTR4yCms4RyxeWWqRYL+LxApm5NIJBOhAI+jkwhYea7acQZjl23a2V8QkQ907KeO4AnMjo3Aq+OU1KOw9WU845h1HZ5CFUX/nu0Qg8FwptiUAngXhlImVZ/JOZYqGTLAL0fmU6gPiwxrWsbEtR0kVXoxABFIYks=");
+            var keys = UserService.AddKey("testkey", "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAqhPcajyWiuO+LTR4yCms4RyxeWWqRYL+LxApm5NIJBOhAI+jkwhYea7acQZjl23a2V8QkQ907KeO4AnMjo3Aq+OU1KOw9WU845h1HZ5CFUX/nu0Qg8FwptiUAngXhlImVZ/JOZYqGTLAL0fmU6gPiwxrWsbEtR0kVXoxABFIYks=");
 
             var testkey = (from key in keys
                            where key.Title == "testkey"
@@ -568,7 +570,7 @@ namespace YukiYume.GitHub.Tests
 
             Assert.That(testkey != null);
 
-            keys = UserRepository.RemoveKey(testkey.Id);
+            keys = UserService.RemoveKey(testkey.Id);
 
             testkey = (from key in keys
                        where key.Title == "testkey"
@@ -580,7 +582,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void RemoveKeyPublicKey()
         {
-            var keys = UserRepository.AddKey("testkey", "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAqhPcajyWiuO+LTR4yCms4RyxeWWqRYL+LxApm5NIJBOhAI+jkwhYea7acQZjl23a2V8QkQ907KeO4AnMjo3Aq+OU1KOw9WU845h1HZ5CFUX/nu0Qg8FwptiUAngXhlImVZ/JOZYqGTLAL0fmU6gPiwxrWsbEtR0kVXoxABFIYks=");
+            var keys = UserService.AddKey("testkey", "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAqhPcajyWiuO+LTR4yCms4RyxeWWqRYL+LxApm5NIJBOhAI+jkwhYea7acQZjl23a2V8QkQ907KeO4AnMjo3Aq+OU1KOw9WU845h1HZ5CFUX/nu0Qg8FwptiUAngXhlImVZ/JOZYqGTLAL0fmU6gPiwxrWsbEtR0kVXoxABFIYks=");
 
             var testkey = (from key in keys
                            where key.Title == "testkey"
@@ -588,7 +590,7 @@ namespace YukiYume.GitHub.Tests
 
             Assert.That(testkey != null);
 
-            keys = UserRepository.RemoveKey(testkey);
+            keys = UserService.RemoveKey(testkey);
 
             testkey = (from key in keys
                        where key.Title == "testkey"
@@ -604,7 +606,7 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void GetEmails()
         {
-            var emails = UserRepository.GetEmails();
+            var emails = UserService.GetEmails();
             Assert.That(emails != null);
             Assert.That(emails.Count() > 0);
 
@@ -622,25 +624,25 @@ namespace YukiYume.GitHub.Tests
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void AddEmailNull()
         {
-            UserRepository.AddEmail(null);
+            UserService.AddEmail(null);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void AddEmailEmpty()
         {
-            UserRepository.AddEmail(string.Empty);
+            UserService.AddEmail(string.Empty);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void AddEmailBadEmail()
         {
-            UserRepository.AddEmail("thisisnotanemailaddress");
+            UserService.AddEmail("thisisnotanemailaddress");
         }
 
         [Test]
         public void AddEmail()
         {
-            var emails = UserRepository.AddEmail("test@example.net");
+            var emails = UserService.AddEmail("test@example.net");
             Assert.That(emails != null);
             Assert.That(emails.Count() > 0);
 
@@ -664,25 +666,25 @@ namespace YukiYume.GitHub.Tests
         [Test, ExpectedException(typeof(ArgumentNullException))]
         public void RemoveEmailNull()
         {
-            UserRepository.RemoveEmail(null);
+            UserService.RemoveEmail(null);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void RemoveEmailEmpty()
         {
-            UserRepository.RemoveEmail(string.Empty);
+            UserService.RemoveEmail(string.Empty);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void RemoveEmailBadEmail()
         {
-            UserRepository.RemoveEmail("thisisnotanemailaddress");
+            UserService.RemoveEmail("thisisnotanemailaddress");
         }
 
         [Test]
         public void RemoveEmail()
         {
-            var emails = UserRepository.RemoveEmail("test@example.net");
+            var emails = UserService.RemoveEmail("test@example.net");
             Assert.That(emails != null);
             Assert.That(emails.Count() > 0);
 
@@ -692,6 +694,86 @@ namespace YukiYume.GitHub.Tests
                 Assert.That(string.Compare(email, "test@example.net", true) != 0);
                 Log.Info(email);
             });
+        }
+
+        #endregion
+
+        #region Update
+
+        [Test, ExpectedException(typeof(ArgumentException))]
+        public void UpdateAllNull()
+        {
+            UserService.Update(null, null, null, null, null);
+        }
+
+        [Test]
+        public void UpdateName()
+        {
+            var user = UserService.Update(new User { Name = "yukiyume test" });
+            Assert.That(user != null);
+            Assert.That(user.Name == "yukiyume test");
+            Log.Info(user);
+
+            user = UserService.Update(new User { Name = "yukiyume" });
+            Assert.That(user != null);
+            Assert.That(user.Name == "yukiyume");
+            Log.Info(user);
+        }
+
+        [Test]
+        public void UpdateEmail()
+        {
+            var user = UserService.Update(new User { Email = "yuki@yukiyume.net" });
+            Assert.That(user != null);
+            Assert.That(user.Email == "yuki@yukiyume.net");
+            Log.Info(user);
+
+            user = UserService.Update(new User { Email = string.Empty });
+            Assert.That(user != null);
+            Assert.That(user.Email.Length == 0);
+            Log.Info(user);
+        }
+
+        [Test]
+        public void UpdateBlog()
+        {
+            var user = UserService.Update(new User { Blog = "http://dev.yukiyume.net/" });
+            Assert.That(user != null);
+            Assert.That(user.Blog == "http://dev.yukiyume.net/");
+            Log.Info(user);
+
+            user = UserService.Update(new User { Blog = string.Empty });
+            Assert.That(user != null);
+            Assert.That(user.Blog.Length == 0);
+            Log.Info(user);
+        }
+
+        [Test]
+        public void UpdateCompany()
+        {
+            var user = UserService.Update(new User { Company = "yukiyume", Blog = string.Empty });
+            Assert.That(user != null);
+            Assert.That(user.Company == "yukiyume");
+            Log.Info(user);
+
+            user = UserService.Update(new User { Company = string.Empty });
+            Assert.That(user != null);
+            Assert.That(user.Company.Length == 0);
+            Log.Info(user);
+        }
+
+        [Test]
+        public void UpdateLocation()
+        {
+            var user = UserService.Update(new User { Location = "Boise, ID" });
+            Assert.That(user != null);
+            Assert.That(user.Location == "Boise, ID");
+            Log.Info(user);
+
+            user = UserService.Update(new User { Location = string.Empty, Blog = string.Empty });
+            Assert.That(user != null);
+            Assert.That(user.Location.Length == 0);
+            Log.Info(user);
         }
 
         #endregion

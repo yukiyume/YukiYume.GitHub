@@ -34,8 +34,9 @@
     <Reference Include="log4net">
       <HintPath>..\Lib\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject.Core">
-      <HintPath>..\Lib\Ninject.Core.dll</HintPath>
+    <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -53,28 +54,30 @@
     <Compile Include="CommitAuthor.cs" />
     <Compile Include="CommitFile.cs" />
     <Compile Include="CommitParent.cs" />
-    <Compile Include="ICommitRepository.cs" />
-    <Compile Include="IGitRepository.cs" />
-    <Compile Include="IObjectRepository.cs" />
-    <Compile Include="Json\JsonCommitRepository.cs" />
-    <Compile Include="Json\JsonGitRepository.cs" />
-    <Compile Include="Json\JsonNetworkRepository.cs" />
-    <Compile Include="Json\JsonObjectRepository.cs" />
+    <Compile Include="GitHub.cs" />
+    <Compile Include="ICommitService.cs" />
+    <Compile Include="IRepositoryService.cs" />
+    <Compile Include="IObjectService.cs" />
+    <Compile Include="IService.cs" />
+    <Compile Include="Json\JsonCommitService.cs" />
+    <Compile Include="Json\JsonRepositoryService.cs" />
+    <Compile Include="Json\JsonNetworkService.cs" />
+    <Compile Include="Json\JsonObjectService.cs" />
     <Compile Include="NetworkCommit.cs" />
     <Compile Include="Configuration\AuthenticationElement.cs" />
     <Compile Include="Configuration\ClientElement.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\GitHubConfigurationSection.cs" />
-    <Compile Include="IIssueRepository.cs" />
-    <Compile Include="INetworkRepository.cs" />
+    <Compile Include="IIssueService.cs" />
+    <Compile Include="INetworkService.cs" />
     <Compile Include="Issue.cs" />
-    <Compile Include="Json\JsonIssueRepository.cs" />
+    <Compile Include="Json\JsonIssueService.cs" />
     <Compile Include="Json\JsonModule.cs" />
     <Compile Include="Format.cs" />
-    <Compile Include="BaseRepository.cs" />
+    <Compile Include="BaseService.cs" />
     <Compile Include="GitHubClient.cs" />
-    <Compile Include="IUserRepository.cs" />
-    <Compile Include="Kernel.cs" />
+    <Compile Include="IUserService.cs" />
+    <Compile Include="GitHubServiceLocator.cs" />
     <Compile Include="NetworkMeta.cs" />
     <Compile Include="NetworkMetaBlock.cs" />
     <Compile Include="NetworkMetaHead.cs" />
@@ -84,10 +87,10 @@
     <Compile Include="Repository.cs" />
     <Compile Include="SearchRepository.cs" />
     <Compile Include="SearchUser.cs" />
-    <Compile Include="Tree.cs" />
+    <Compile Include="TreeEntry.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserPlan.cs" />
-    <Compile Include="Json\JsonUserRepository.cs" />
+    <Compile Include="Json\JsonUserService.cs" />
     <Compile Include="Validation.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -36,8 +36,14 @@ using System.Text;
 
 namespace YukiYume.GitHub.Configuration
 {
+    /// <summary>
+    /// ConfigurationElement for the GitHub authentication configuration
+    /// </summary>
     public class AuthenticationElement : ConfigurationElement
     {
+        /// <summary>
+        /// GitHub API username
+        /// </summary>
         [ConfigurationProperty("userName", IsRequired = false)]
         public string UserName
         {
@@ -45,6 +51,9 @@ namespace YukiYume.GitHub.Configuration
             set { this["userName"] = value; }
         }
 
+        /// <summary>
+        /// GitHub API token
+        /// </summary>
         [ConfigurationProperty("apiToken", IsRequired = false)]
         public string ApiToken
         {

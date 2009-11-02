@@ -34,8 +34,9 @@
     <Reference Include="log4net">
       <HintPath>..\Lib\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject.Core">
-      <HintPath>..\Lib\Ninject.Core.dll</HintPath>
+    <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.5.1.9189, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -51,15 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommitRepositoryFixture.cs" />
-    <Compile Include="GitRepositoryFixture.cs" />
-    <Compile Include="IssueRepositoryFixture.cs" />
-    <Compile Include="NetworkRepositoryFixture.cs" />
-    <Compile Include="ObjectRepositoryFixture.cs" />
+    <Compile Include="CommitServiceFixture.cs" />
+    <Compile Include="GitHubFixture.cs" />
+    <Compile Include="RepositoryServiceFixture.cs" />
+    <Compile Include="IssueServiceFixture.cs" />
+    <Compile Include="NetworkServiceFixture.cs" />
+    <Compile Include="ObjectServiceFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetupFixture.cs" />
-    <Compile Include="TestModule.cs" />
-    <Compile Include="UserRepositoryFixture.cs" />
+    <Compile Include="UserServiceFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\YukiYume\YukiYume\YukiYume.csproj">
