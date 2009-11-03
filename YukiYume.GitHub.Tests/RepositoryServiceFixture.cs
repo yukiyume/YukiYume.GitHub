@@ -51,7 +51,7 @@ namespace YukiYume.GitHub.Tests
         [SetUp]
         public void Setup()
         {
-            GitRepository = GitHubServiceLocator.Get<IRepositoryService>();
+            GitRepository = GithubServiceLocator.Get<IRepositoryService>();
         }
 
         #region Search

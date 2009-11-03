@@ -39,7 +39,7 @@ namespace YukiYume.GitHub
     /// interface for services that work with the GitHub Object API
     /// See http://develop.github.com/p/object.html for more information.
     /// </summary>
-    public interface IObjectService : IService
+    public interface IObjectService : IGithubService
     {
         /// <summary>
         /// Gets the contents of a tree by tree SHA

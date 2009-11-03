@@ -40,33 +40,33 @@ namespace YukiYume.GitHub
     /// The GitHub class provides an easy way of working with the various GitHub services
     /// The easiest way of working with it is to use Ninject, such as in the following:
     /// var kernel = new StandardKernel(new JsonModule());
-    /// var gitHub = kernel.Get&lt;GitHub&gt;();
+    /// var github = kernel.Get&lt;Github&gt;();
     /// or if you want to use a GitHub API username / token different from the default
     /// var kernel = new StandardKernel(new JsonModule("username", "apitoken"));
-    /// var gitHub = kernel.Get&lt;GitHub&gt;();
+    /// var github = kernel.Get&lt;Github&gt;();
     /// then with your gitHub object, you can use the various services:
-    /// var user = gitHub.UserService.Get("someusername");
+    /// var user = github.User.Get("someusername");
     /// etc.
     /// </summary>
-    public sealed class GitHub
+    public sealed class Github
     {
-        public IUserService UserService { get; private set; }
-        public IRepositoryService RepositoryService { get; private set; }
-        public INetworkService NetworkService { get; private set; }
-        public IIssueService IssueService { get; private set; }
-        public IObjectService ObjectService { get; private set; }
-        public ICommitService CommitService { get; private set; }
+        public IUserService User { get; private set; }
+        public IRepositoryService Repository { get; private set; }
+        public INetworkService Network { get; private set; }
+        public IIssueService Issue { get; private set; }
+        public IObjectService Object { get; private set; }
+        public ICommitService Commit { get; private set; }
 
         [Inject]
-        public GitHub(IUserService userService, IRepositoryService repositoryService, INetworkService networkService,
+        public Github(IUserService userService, IRepositoryService repositoryService, INetworkService networkService,
                       IIssueService issueService, IObjectService objectService, ICommitService commitService)
         {
-            UserService = userService;
-            RepositoryService = repositoryService;
-            NetworkService = networkService;
-            IssueService = issueService;
-            ObjectService = objectService;
-            CommitService = commitService;
+            User = userService;
+            Repository = repositoryService;
+            Network = networkService;
+            Issue = issueService;
+            Object = objectService;
+            Commit = commitService;
         }
     }
 }

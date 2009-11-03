@@ -55,7 +55,7 @@ namespace YukiYume.GitHub.Tests
         [SetUp]
         public void Setup()
         {
-            UserService = GitHubServiceLocator.Get<IUserService>();
+            UserService = GithubServiceLocator.Get<IUserService>();
         }
 
         #region Search

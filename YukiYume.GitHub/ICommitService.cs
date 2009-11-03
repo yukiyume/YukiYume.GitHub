@@ -39,7 +39,7 @@ namespace YukiYume.GitHub
     /// interface for services that work with the GitHub Commit API
     /// See http://develop.github.com/p/commits.html for more information.
     /// </summary>
-    public interface ICommitService : IService
+    public interface ICommitService : IGithubService
     {
         /// <summary>
         /// Gets a list of commits for a GitHub repository branch

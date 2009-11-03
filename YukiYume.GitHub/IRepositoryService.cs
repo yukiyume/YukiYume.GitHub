@@ -39,7 +39,7 @@ namespace YukiYume.GitHub
     /// interface for services that work with the GitHub Repositories API
     /// See http://develop.github.com/p/repo.html for more information.
     /// </summary>
-    public interface IRepositoryService : IService
+    public interface IRepositoryService : IGithubService
     {
         /// <summary>
         /// Searches for all repositories matching the searchTerm

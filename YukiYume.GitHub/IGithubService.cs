@@ -30,34 +30,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using YukiYume.GitHub.Configuration;
 
 #endregion
 
 namespace YukiYume.GitHub
 {
-    /// <summary>
-    /// All GitHub services should inherit from BaseService
-    /// BaseService sets up a GitHubClient for inheriting classes to use
-    /// </summary>
-    public abstract class BaseService : IGithubService
+    public interface IGithubService
     {
         /// <summary>
-        /// Gets or sets the GitHubClient
+        /// Gets or sets the GitHubClient for the service
         /// </summary>
-        public GithubClient Client { get; set; }
-
-        protected BaseService(FormatType format)
-        {
-            if (Config.GitHub.Authentication != null && !string.IsNullOrEmpty(Config.GitHub.Authentication.UserName) && !string.IsNullOrEmpty(Config.GitHub.Authentication.ApiToken))
-                Client = new GithubClient(format, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
-            else
-                Client = new GithubClient(format);
-        }
-
-        protected BaseService(FormatType format, string gitHubUserName, string gitHubApiToken) 
-        {
-            Client = new GithubClient(format, gitHubUserName, gitHubApiToken);
-        }
+        GithubClient Client { get; set; }
     }
 }

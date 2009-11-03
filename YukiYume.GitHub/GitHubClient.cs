@@ -41,9 +41,9 @@ using YukiYume.GitHub.Configuration;
 
 namespace YukiYume.GitHub
 {
-    public sealed class GitHubClient
+    public sealed class GithubClient
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(GitHubClient));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(GithubClient));
 
         public FormatType FormatType { get; private set; }
         public NameValueCollection LoginInfo { get; private set; }
@@ -52,12 +52,12 @@ namespace YukiYume.GitHub
         private static readonly Queue<WebClient> WebClientQueue = new Queue<WebClient>(Config.GitHub.Client.PoolSize);
         private static readonly object WebClientQueuePadlock = new object();
 
-        static GitHubClient()
+        static GithubClient()
         {
             Config.GitHub.Client.PoolSize.Times(() => WebClientQueue.Enqueue(new WebClient()));
         }
 
-        public GitHubClient(FormatType formatType)
+        public GithubClient(FormatType formatType)
         {
             FormatType = formatType;
 
@@ -65,7 +65,7 @@ namespace YukiYume.GitHub
                 LoginInfo = new NameValueCollection { { "login", Config.GitHub.Authentication.UserName }, { "token", Config.GitHub.Authentication.ApiToken } };
         }
 
-        public GitHubClient(FormatType formatType, string gitHubUserName, string gitHubApiToken)
+        public GithubClient(FormatType formatType, string gitHubUserName, string gitHubApiToken)
         {
             LoginInfo = new NameValueCollection { { "login", gitHubUserName }, { "token", gitHubApiToken } };
             FormatType = formatType;

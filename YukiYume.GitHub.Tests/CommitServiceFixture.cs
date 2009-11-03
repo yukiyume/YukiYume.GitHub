@@ -50,7 +50,7 @@ namespace YukiYume.GitHub.Tests
         [SetUp]
         public void Setup()
         {
-            CommitRepository = GitHubServiceLocator.Get<ICommitService>();
+            CommitRepository = GithubServiceLocator.Get<ICommitService>();
         }
 
         #region ListBranch

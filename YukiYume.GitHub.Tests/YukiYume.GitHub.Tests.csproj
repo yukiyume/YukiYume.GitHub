@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommitServiceFixture.cs" />
-    <Compile Include="GitHubFixture.cs" />
+    <Compile Include="GithubFixture.cs" />
     <Compile Include="RepositoryServiceFixture.cs" />
     <Compile Include="IssueServiceFixture.cs" />
     <Compile Include="NetworkServiceFixture.cs" />

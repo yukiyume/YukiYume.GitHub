@@ -49,7 +49,7 @@ namespace YukiYume.GitHub
     /// before getting any services, call the Init method as in the following:
     /// GitHubServiceLocator.Init(new JsonModule("username", "apitoken"));
     /// </summary>
-    public static class GitHubServiceLocator
+    public static class GithubServiceLocator
     {
         private static IKernel Kernel { get; set; }
 
@@ -58,7 +58,7 @@ namespace YukiYume.GitHub
         /// </summary>
         /// <typeparam name="T">the type of GitHub service to get, such as IUserService</typeparam>
         /// <returns>a new instance of the specified GitHub service</returns>
-        public static T Get<T>() where T : IService
+        public static T Get<T>()
         {
             return Kernel.Get<T>();
         }
@@ -72,7 +72,7 @@ namespace YukiYume.GitHub
             Kernel = new StandardKernel(module);
         }
 
-        static GitHubServiceLocator()
+        static GithubServiceLocator()
         {
             Kernel = new StandardKernel(new JsonModule());
         }

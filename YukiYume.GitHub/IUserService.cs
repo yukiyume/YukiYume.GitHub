@@ -39,7 +39,7 @@ namespace YukiYume.GitHub
     /// interface for services that work with the GitHub User API
     /// See http://develop.github.com/p/users.html for more information.
     /// </summary>
-    public interface IUserService : IService
+    public interface IUserService : IGithubService
     {
         /// <summary>
         /// Adds an e-mail address for the authenticated user

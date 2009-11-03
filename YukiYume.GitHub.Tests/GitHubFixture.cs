@@ -45,16 +45,16 @@ namespace YukiYume.GitHub.Tests
     /// Unit Tests for GitHub class
     /// </summary>
     [TestFixture]
-    public class GitHubFixture
+    public class GithubFixture
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(GitHubFixture));
-        private GitHub GitHub { get; set; }
+        private static readonly ILog Log = LogManager.GetLogger(typeof(GithubFixture));
+        private Github GitHub { get; set; }
 
         [SetUp]
         public void Setup()
         {
             var kernel = new StandardKernel(new JsonModule());
-            GitHub = kernel.Get<GitHub>();
+            GitHub = kernel.Get<Github>();
         }
 
         [Test]
@@ -63,15 +63,15 @@ namespace YukiYume.GitHub.Tests
             PropertiesNotNull(GitHub);
         }
 
-        private static void PropertiesNotNull(GitHub gitHub)
+        private static void PropertiesNotNull(Github gitHub)
         {
             Assert.That(gitHub != null);
-            Assert.That(gitHub.CommitService != null);
-            Assert.That(gitHub.IssueService != null);
-            Assert.That(gitHub.NetworkService != null);
-            Assert.That(gitHub.ObjectService != null);
-            Assert.That(gitHub.RepositoryService != null);
-            Assert.That(gitHub.UserService != null);
+            Assert.That(gitHub.Commit != null);
+            Assert.That(gitHub.Issue != null);
+            Assert.That(gitHub.Network != null);
+            Assert.That(gitHub.Object != null);
+            Assert.That(gitHub.Repository != null);
+            Assert.That(gitHub.User != null);
         }
 
         [Test]
@@ -83,25 +83,25 @@ namespace YukiYume.GitHub.Tests
         [Test]
         public void UsesDefaultLogin()
         {
-            IsCorrectLoginToken(GitHub.CommitService, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
-            IsCorrectLoginToken(GitHub.IssueService, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
-            IsCorrectLoginToken(GitHub.NetworkService, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
-            IsCorrectLoginToken(GitHub.ObjectService, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
-            IsCorrectLoginToken(GitHub.RepositoryService, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
-            IsCorrectLoginToken(GitHub.UserService, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
+            IsCorrectLoginToken(GitHub.Commit, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
+            IsCorrectLoginToken(GitHub.Issue, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
+            IsCorrectLoginToken(GitHub.Network, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
+            IsCorrectLoginToken(GitHub.Object, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
+            IsCorrectLoginToken(GitHub.Repository, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
+            IsCorrectLoginToken(GitHub.User, Config.GitHub.Authentication.UserName, Config.GitHub.Authentication.ApiToken);
         }
 
-        private static void ServicesAreJsonServices(GitHub gitHub)
+        private static void ServicesAreJsonServices(Github gitHub)
         {
-            Assert.That(gitHub.CommitService is JsonCommitService);
-            Assert.That(gitHub.IssueService is JsonIssueService);
-            Assert.That(gitHub.NetworkService is JsonNetworkService);
-            Assert.That(gitHub.ObjectService is JsonObjectService);
-            Assert.That(gitHub.RepositoryService is JsonRepositoryService);
-            Assert.That(gitHub.UserService is JsonUserService);
+            Assert.That(gitHub.Commit is JsonCommitService);
+            Assert.That(gitHub.Issue is JsonIssueService);
+            Assert.That(gitHub.Network is JsonNetworkService);
+            Assert.That(gitHub.Object is JsonObjectService);
+            Assert.That(gitHub.Repository is JsonRepositoryService);
+            Assert.That(gitHub.User is JsonUserService);
         }
 
-        private static void IsCorrectLoginToken(IService service, string login, string token)
+        private static void IsCorrectLoginToken(IGithubService service, string login, string token)
         {
             Assert.That(service.Client.LoginInfo["login"] == login);
             Assert.That(service.Client.LoginInfo["token"] == token);
@@ -111,16 +111,16 @@ namespace YukiYume.GitHub.Tests
         public void SpecifyUserNameAndToken()
         {
             var kernel = new StandardKernel(new JsonModule("user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
-            var gitHub = kernel.Get<GitHub>();
+            var gitHub = kernel.Get<Github>();
             Assert.That(gitHub != null);
             PropertiesNotNull(gitHub);
             ServicesAreJsonServices(gitHub);
-            IsCorrectLoginToken(gitHub.CommitService, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            IsCorrectLoginToken(gitHub.IssueService, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            IsCorrectLoginToken(gitHub.NetworkService, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            IsCorrectLoginToken(gitHub.ObjectService, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            IsCorrectLoginToken(gitHub.RepositoryService, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-            IsCorrectLoginToken(gitHub.UserService, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            IsCorrectLoginToken(gitHub.Commit, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            IsCorrectLoginToken(gitHub.Issue, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            IsCorrectLoginToken(gitHub.Network, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            IsCorrectLoginToken(gitHub.Object, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            IsCorrectLoginToken(gitHub.Repository, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            IsCorrectLoginToken(gitHub.User, "user2", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         }
     }
 }

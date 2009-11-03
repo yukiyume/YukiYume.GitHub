@@ -39,7 +39,7 @@ namespace YukiYume.GitHub
     /// interface for services that work with the GitHub Network API
     /// See http://develop.github.com/p/network.html for more information.
     /// </summary>
-    public interface INetworkService : IService
+    public interface INetworkService : IGithubService
     {
         /// <summary>
         /// Gets meta information about a GitHub repository's network

@@ -39,7 +39,7 @@ namespace YukiYume.GitHub
     /// interface for services that work with the GitHub Issues API
     /// See http://develop.github.com/p/issues.html for more information.
     /// </summary>
-    public interface IIssueService : IService
+    public interface IIssueService : IGithubService
     {
         /// <summary>
         /// Searches the specified project for issues matching the issueState (Open or Closed) and the searchTerm

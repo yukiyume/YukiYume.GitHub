@@ -52,7 +52,7 @@ namespace YukiYume.GitHub.Tests
         [SetUp]
         public void Setup()
         {
-            ObjectRepository = GitHubServiceLocator.Get<IObjectService>();
+            ObjectRepository = GithubServiceLocator.Get<IObjectService>();
         }
 
         #region TreeList

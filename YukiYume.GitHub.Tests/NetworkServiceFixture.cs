@@ -51,7 +51,7 @@ namespace YukiYume.GitHub.Tests
         [SetUp]
         public void Setup()
         {
-            NetworkRepository = GitHubServiceLocator.Get<INetworkService>();
+            NetworkRepository = GithubServiceLocator.Get<INetworkService>();
         }
 
         #region GetNetworkMeta

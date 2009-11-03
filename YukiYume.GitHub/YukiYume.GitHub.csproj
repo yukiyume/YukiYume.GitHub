@@ -54,11 +54,11 @@
     <Compile Include="CommitAuthor.cs" />
     <Compile Include="CommitFile.cs" />
     <Compile Include="CommitParent.cs" />
-    <Compile Include="GitHub.cs" />
+    <Compile Include="Github.cs" />
     <Compile Include="ICommitService.cs" />
     <Compile Include="IRepositoryService.cs" />
     <Compile Include="IObjectService.cs" />
-    <Compile Include="IService.cs" />
+    <Compile Include="IGithubService.cs" />
     <Compile Include="Json\JsonCommitService.cs" />
     <Compile Include="Json\JsonRepositoryService.cs" />
     <Compile Include="Json\JsonNetworkService.cs" />
@@ -75,9 +75,9 @@
     <Compile Include="Json\JsonModule.cs" />
     <Compile Include="Format.cs" />
     <Compile Include="BaseService.cs" />
-    <Compile Include="GitHubClient.cs" />
+    <Compile Include="GithubClient.cs" />
     <Compile Include="IUserService.cs" />
-    <Compile Include="GitHubServiceLocator.cs" />
+    <Compile Include="GithubServiceLocator.cs" />
     <Compile Include="NetworkMeta.cs" />
     <Compile Include="NetworkMetaBlock.cs" />
     <Compile Include="NetworkMetaHead.cs" />
