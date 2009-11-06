@@ -50,23 +50,23 @@ namespace YukiYume.GitHub
     /// </summary>
     public sealed class Github
     {
-        public IUserService User { get; private set; }
-        public IRepositoryService Repository { get; private set; }
-        public INetworkService Network { get; private set; }
-        public IIssueService Issue { get; private set; }
-        public IObjectService Object { get; private set; }
-        public ICommitService Commit { get; private set; }
+        public IUserService Users { get; private set; }
+        public IRepositoryService Repositories { get; private set; }
+        public INetworkService Networks { get; private set; }
+        public IIssueService Issues { get; private set; }
+        public IObjectService Objects { get; private set; }
+        public ICommitService Commits { get; private set; }
 
         [Inject]
         public Github(IUserService userService, IRepositoryService repositoryService, INetworkService networkService,
                       IIssueService issueService, IObjectService objectService, ICommitService commitService)
         {
-            User = userService;
-            Repository = repositoryService;
-            Network = networkService;
-            Issue = issueService;
-            Object = objectService;
-            Commit = commitService;
+            Users = userService;
+            Repositories = repositoryService;
+            Networks = networkService;
+            Issues = issueService;
+            Objects = objectService;
+            Commits = commitService;
         }
     }
 }
